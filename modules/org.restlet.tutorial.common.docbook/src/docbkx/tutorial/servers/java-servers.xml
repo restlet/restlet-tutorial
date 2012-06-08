@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+  <chapter id="java-servers">
+    <title>Providing RESTful applications with Java</title>
+
+    <sect1>
+      <title>Introduction</title>
+      
+      <para>
+        TODO
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Defining components and applications</title>
+      
+      <para>
+        TODO
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Implementing server resources</title>
+      
+      <para>
+        TODO
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Defining routing</title>
+      
+      <para>
+        TODO
+      </para>
+    </sect1>
+
+    <sect1>
+      <title>Using generics in server resources</title>
+      
+      <para>
+        TODO
+      </para>
+    </sect1>
+  </chapter>
