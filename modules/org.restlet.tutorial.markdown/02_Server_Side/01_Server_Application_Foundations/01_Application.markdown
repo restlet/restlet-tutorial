@@ -149,22 +149,20 @@ of Restlet. This approach isn't convenient for deployment that uses archive with
 
 TODO: 
 
-public class TestAppApplication extends Application {
-    (...)
-    private MyEntityDao myEntityDao;
-    (...)
-
-    public TestAppApplication() {
-        myEntityDao = new MyEntityDaoImpl();
+    public class TestAppApplication extends Application {
         (...)
+        private MyEntityDao myEntityDao;
+        (...)
+
+        public TestAppApplication() {
+            myEntityDao = new MyEntityDaoImpl();
+            (...)
+        }
+
+        (...)
+
+        public MyEntityDao getMyEntityDao() {
+            return myEntityDao;
+        }
     }
-
-    (...)
-
-    public MyEntityDao getMyEntityDao() {
-        return myEntityDao;
-    }
-
-}
-
 
