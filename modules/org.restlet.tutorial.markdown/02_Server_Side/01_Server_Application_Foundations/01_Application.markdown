@@ -147,7 +147,10 @@ of Restlet. This approach isn't convenient for deployment that uses archive with
 
 ### Linking with application layers ###
 
-TODO: 
+Restlet corresponds to the Web layers and are based on business and data access layers for processing. The
+link should be done within the application class. As a matter of fact, entities of such layers are commonly
+singleton and it's also the case for the application. Restlet keeps a single instance for your application.
+Following code describes how to configure a dao within a Restlet application class:
 
     public class TestAppApplication extends Application {
         (...)
@@ -166,3 +169,17 @@ TODO:
         }
     }
 
+In Restlet, resources aren't singleton and a best practice consists in using the application to get
+instances from business or data access layers.
+
+    public class MyResource extends ServerResource {
+
+        @Get
+        public Representation getElements() {
+            MyEntityDao dao = ((TestAppApplication)getApplication()).getMyEntityDao();
+            (...)
+        }
+    }
+
+You can note that if you use IoC container, you can configure injection within the container itself
+since they commonly support injection of singletons within prototype entities.
