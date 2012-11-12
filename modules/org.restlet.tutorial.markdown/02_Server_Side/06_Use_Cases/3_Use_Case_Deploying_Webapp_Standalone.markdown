@@ -72,18 +72,18 @@ through the component. Several possibilities are supported within Restlet:
 
 * Using the default host:
 
-    component.getDefaultHost().attach("/app", new MyApplication());
+        component.getDefaultHost().attach("/app", new MyApplication());
 
 * Using the internal router to only make available the application within a same process using the RIAP protocol:
 
-    component.getInternalRouter().attach("/app", new MyApplication());
+        component.getInternalRouter().attach("/app", new MyApplication());
 
 * Using a virtual host to precisely control the domain to access the application:
 
-    VirtualHost virtualHost = new VirtualHost();
-    virtualHost.setHostDomain("www.myapp.org");
-    virtualHost.setHostPort("80|8182");
-    component.getHosts().add(virtualHost);
+        VirtualHost virtualHost = new VirtualHost();
+        virtualHost.setHostDomain("www.myapp.org");
+        virtualHost.setHostPort("80|8182");
+        component.getHosts().add(virtualHost);
 
 Let's finally see how startup and shutdown you server.
 
