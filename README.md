@@ -29,6 +29,11 @@ __Detailled table of content__
 [Working with XML] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/2_Working_With_XML.markdown) [TODO]  
 [Working with templates] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/3_Working_With_Templates.markdown) [TODO]  
 
+### Deployment ###
+
+[Standalone deployment] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/1_Standalone_Deployment.markdown) [DONE]  
+[Deployment in servlet container] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/2_Servlet_Deployment.markdown) [DONE]  
+
 ### Advanced issues ###
 
 [Working with headers] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/1_Working_With_Headers.markdown) [TODO]  
