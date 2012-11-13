@@ -47,4 +47,17 @@ __Detailled table of content__
 
 ## Client-side support ##
 
+### Low-level API ###
+
 [TODO]
+
+### High-level API ###
+
+[TODO]
+
+### Advanced issues ###
+
+[Working with headers] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/1_Working_With_Headers.markdown) [TODO]  
+[Optimizing applications] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/2_Optimize.markdown) [DONE]  
+[Troubleshooting] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/3_Troubleshooting.markdown) [TODO]  
+
