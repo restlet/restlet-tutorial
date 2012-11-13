@@ -44,8 +44,6 @@ __Detailled table of content__
 
 [Implementing a simple API] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/1_Use_Case_Implementing_Simple_API.markdown) [TODO]  
 [Implementing a Web application] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/2_Use_Case_Implementing_Webapp.markdown) [TODO]  
-[Standalone deployment] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/3_Use_Case_Deploying_Webapp_Standalone.markdown) [DONE]  
-[Deployment in servlet container] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/4_Use_Case_Deploying_Webapp_Servlet.markdown) [DONE]  
 
 ## Client-side support ##
 
