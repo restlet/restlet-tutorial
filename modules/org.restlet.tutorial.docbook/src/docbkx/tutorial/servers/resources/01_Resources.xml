@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='utf-8'?>
+<chapter id="implementing-resources">
+    <title>Implementing resources</title>
+    <para>Server resources are the elements that provide processing related to paths.
+
+</para>
+    <section xml:id="implementing-resources-a-simple-server-resource">
+        <title>A simple server resource</title>
+        <para>Restlet provides the ServerResource class to implement server resource. A server resource is simply a sub-class of the ServerResource class.
+One specificity in Restlet is that a server resource instance is created for each REST request. So you can define class variables in it but
+they will be available for the request.
+
+</para>
+        <para>Following code describes a simple custom server resource:
+
+</para>
+        <example>
+            <programlisting language="java">public class MyServerResource extends ServerResource {
+    (...)
+}</programlisting>
+        </example>
+        <para>The MyServerResource class can be attached to a path for the application, as described in the "Implementing application foundations" section.
+
+</para>
+    </section>
+    <section xml:id="implementing-resources-adding-handling-methods">
+        <title>Adding handling methods</title>
+        <para>We can add now methods to handle HTTP methods for the path(s) the server resource is attached with. Restlet uses annotations for that, as listed
+below:
+
+</para>
+        <itemizedlist>
+            <listitem>
+                <para>Get: the associated method handles an HTTP GET method</para>
+            </listitem>
+            <listitem>
+                <para>Put: the associated method handles an HTTP PUT method</para>
+            </listitem>
+            <listitem>
+                <para>Post: the associated method handles an HTTP POST method</para>
+            </listitem>
+            <listitem>
+                <para>Delete: the associated method handles an HTTP DELETE method</para>
+            </listitem>
+            <listitem>
+                <para>Head: the associated method handles an HTTP HEAD method</para>
+            </listitem>
+        </itemizedlist>
+        <para>The following code describes how to add annotated methods to a server resource class:
+
+</para>
+        <example>
+            <programlisting language="java">public class MyServerResource extends ServerResource {
+    @Get
+    public Representation handleGetMethod() {
+        (...)
+    }
+
+    @Put
+    public Representation handlePutMethod() {
+        (...)
+    }
+
+    @Delete
+    public void handleDeleteMethod() {
+        (...)
+    }
+}</programlisting>
+        </example>
+        <para>You can notice that the method signature defers according to the associated annotation. For example, we expect a GET method to send back
+a representation, a PUT one to receive and send back representations, a DELETE one to exchange no representation.
+
+</para>
+    </section>
+    <section xml:id="implementing-resources-using-server-resource-request-methods">
+        <title>Using server resource request methods</title>
+        <para>When attaching server resources for a particular path, you can commonly define attributes. Accessing the request attributes
+Accessing the request query
+
+</para>
+    </section>
+    <section xml:id="implementing-resources-using-server-resource-response-methods">
+        <title>Using server resource response methods</title>
+        <para>Handling redirects
+</para>
+    </section>
+</chapter>

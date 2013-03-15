@@ -1,0 +1,96 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;11.&nbsp;Deploying applications within servlet containers</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Restlet Framework - Tutorial"><link rel="up" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="prev" href="deploying-applications-as-standalone-server.html" title="Chapter&nbsp;10.&nbsp;Deploying applications as standalone server"><link rel="next" href="clients.html" title="Part&nbsp;III.&nbsp;Accessing RESTful applications"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.restlet.org/" title="Restlet Framework"><img style="border:none;" src="images/logo200.gif"></a><a style="border:none;" href="http://www.restlet.com/" title="Restlet SAS"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/logo101.png"></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="deploying-applications-within-servlet-containers"></a>Chapter&nbsp;11.&nbsp;Deploying applications within servlet containers</h2></div></div></div><p>Now you have a Restlet applications implemented based on previous described use cases:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Implementing a simple Web API</p></li><li><p>Implementing a Web application</p></li></ul></div><p>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-organizing-the-web-application"></a>11.1.&nbsp;Organizing the Web application</h2></div></div></div><p>There is nothing specific here to Restlet but you need to follow the organization of Web applications
+of Java EE, as below:
+
+</p><pre class="programlisting">WebAppRoot
+    +- WEB-INF
+        +- classes
+        +- lib
+        -- web.xml</pre><p>The `WEB-INF/classes` folder must contain the classes of your Web application, `WEB-INF/lib` the jar files of
+the libraries and frameworks used and the `web.xml`, the configuration of the Web application.
+
+</p><p>You can notice that, in the case of GAE (Google App Engine), you need to add an additional file named
+appengine-web.xml within the `WEB-INF` folder for configurations related to the GAE environment.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-configuring-the-web-application"></a>11.2.&nbsp;Configuring the Web application</h2></div></div></div><p>Restlet provides a servlet adapter for servlet container and Restlet applications must be configured in this case
+within the `web.xml` file. You will find all elements that can be configured on a Restlet component since this
+servlet corresponds to a wrapper upon it.
+
+</p><p>The following code describes the minimal content of the `web.xml` file to configure Restlet within a servlet
+environment:
+
+</p><div class="example"><a name="d0e373"></a><p class="title"><b>Example&nbsp;11.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="UTF-8"?</span>&gt;
+&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee"</span>
+         <span class="hl-attribute">xmlns:web</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>
+         <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee
+                  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>
+         <span class="hl-attribute">id</span>=<span class="hl-value">"myApplication"</span> <span class="hl-attribute">version</span>=<span class="hl-value">"2.5"</span>&gt;
+    &lt;<span class="hl-tag">display-name</span>&gt;My Application&lt;<span class="hl-tag">/display-name</span>&gt;
+
+    &lt;<span class="hl-tag">context-param</span>&gt;
+        &lt;<span class="hl-tag">param-name</span>&gt;org.restlet.application&lt;<span class="hl-tag">/param-name</span>&gt;
+        &lt;<span class="hl-tag">param-value</span>&gt;org.restlet.tutorial.MyApplication&lt;<span class="hl-tag">/param-value</span>&gt;
+    &lt;<span class="hl-tag">/context-param</span>&gt;
+
+    &lt;<span class="hl-tag">servlet</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;ServerServlet&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">servlet-class</span>&gt;org.restlet.ext.servlet.ServerServlet&lt;<span class="hl-tag">/servlet-class</span>&gt;
+    &lt;<span class="hl-tag">/servlet</span>&gt;
+
+    &lt;<span class="hl-tag">servlet-mapping</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;ServerServlet&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">url-pattern</span>&gt;/*&lt;<span class="hl-tag">/url-pattern</span>&gt;
+    &lt;<span class="hl-tag">/servlet-mapping</span>&gt;
+&lt;<span class="hl-tag">/web-app</span>&gt;</pre></div></div><br class="example-break"><p>You can enhance this configuration by adding the client protocols you want to use with the `org.restlet.clients` attribute
+of the servlet, as described below:
+
+</p><div class="example"><a name="d0e378"></a><p class="title"><b>Example&nbsp;11.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">(...)&gt;</span>
+    <span class="hl-attribute">&lt;servlet&gt;</span>
+        <span class="hl-attribute">(...)</span>
+        <span class="hl-attribute">&lt;init-param&gt;</span>
+            <span class="hl-attribute">&lt;param-name&gt;org.restlet.clients&lt;/param-name&gt;</span>
+            <span class="hl-attribute">&lt;param-value&gt;CLAP,HTTP&lt;/param-value&gt;</span>
+        <span class="hl-attribute">&lt;/init-param&gt;</span>
+    <span class="hl-attribute">&lt;/servlet&gt;</span>
+<span class="hl-attribute">&lt;/web-app&gt;</span></pre></div></div><br class="example-break"><p>You probably have all you need with this approach but you also can choose to define your own component object and configure
+it within the `web.xml` file, as described below. In this case, initialization will take it rather than initialization parameters.
+
+</p><div class="example"><a name="d0e383"></a><p class="title"><b>Example&nbsp;11.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">(...)&gt;</span>
+    <span class="hl-attribute">&lt;servlet&gt;</span>
+        <span class="hl-attribute">(...)</span>
+        <span class="hl-attribute">&lt;init-param&gt;</span>
+            <span class="hl-attribute">&lt;param-name&gt;org.restlet.component&lt;/param-name&gt;</span>
+            <span class="hl-attribute">&lt;param-value&gt;org.restlet.tutorial.MyComponent&lt;/param-value&gt;</span>
+        <span class="hl-attribute">&lt;/init-param&gt;</span>
+    <span class="hl-attribute">&lt;/servlet&gt;</span>
+<span class="hl-attribute">&lt;/web-app&gt;</span></pre></div></div><br class="example-break"><p>In the case of deployment for GAE, the appengine-web.xml file contains configurations related to GAE
+and there is nothing regarding Restlet. The following code describes a minimal content for this file
+and you don't provide here more details. See the GAE documentation if necessary.
+
+</p><div class="example"><a name="d0e388"></a><p class="title"><b>Example&nbsp;11.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="utf-8"?</span>&gt;
+&lt;<span class="hl-tag">appengine-web-app</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://appengine.google.com/ns/1.0"</span>&gt;
+    &lt;<span class="hl-tag">application</span>&gt;myapplication&lt;<span class="hl-tag">/application</span>&gt;
+    &lt;<span class="hl-tag">version</span>&gt;1&lt;<span class="hl-tag">/version</span>&gt;
+    &lt;<span class="hl-tag">threadsafe</span>&gt;true&lt;<span class="hl-tag">/threadsafe</span>&gt;
+    &lt;<span class="hl-tag">sessions-enabled</span>&gt;false&lt;<span class="hl-tag">/sessions-enabled</span>&gt;
+
+    &lt;<span class="hl-tag">system-properties</span>&gt;
+        &lt;<span class="hl-tag">property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"java.util.logging.config.file"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"WEB-INF/logging.properties"</span>/&gt;
+    &lt;<span class="hl-tag">/system-properties</span>&gt;
+
+    &lt;<span class="hl-tag">env-variables</span>&gt;
+        &lt;<span class="hl-tag">env-var</span> <span class="hl-attribute">name</span>=<span class="hl-value">"DEFAULT_ENCODING"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"ISO-8859-1"</span> /&gt;
+    &lt;<span class="hl-tag">/env-variables</span>&gt;
+&lt;<span class="hl-tag">/appengine-web-app</span>&gt;</pre></div></div><br class="example-break"><p>Let's deploy now the application.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-deploying-the-web-application"></a>11.3.&nbsp;Deploying the Web application</h2></div></div></div><p>Deployment of the application follows mechanisms provided by servlet container and different execution
+environment. For more details, have a look at the corresponding documentations.
+</p></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="deploying-applications-as-standalone-server.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="clients.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;10.&nbsp;Deploying applications as standalone server&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.restlet.com/" title="Noelios">Sponsored by Restlet SAS
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Part&nbsp;III.&nbsp;Accessing RESTful applications</td></tr></table></div></body></html>

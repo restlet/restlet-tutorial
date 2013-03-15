@@ -1,0 +1,156 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;1.&nbsp;Test</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Restlet Framework - Tutorial"><link rel="up" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="prev" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="next" href="clients.html" title="Part&nbsp;III.&nbsp;Accessing RESTful applications"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.restlet.org/" title="Restlet Framework"><img style="border:none;" src="images/logo200.gif"></a><a style="border:none;" href="http://www.restlet.com/" title="Restlet SAS"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/logo101.png"></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="test"></a>Chapter&nbsp;1.&nbsp;Test</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="test-implementing-application-foundations"></a>1.1.&nbsp;Implementing application foundations</h2></div></div></div><p>In this section, we will implement foundations of your Restlet server applications.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="implementing-application-foundations-application-class"></a>1.1.1.&nbsp;Application class</h3></div></div></div><p>The central class of all Restlet applications is the class that extends the Application one from
+Restlet what the chosen deployment (standalone, servlet container and so). This class mainly
+defines the way to access provided resources and acts as an entry point.
+
+</p><div class="example"><a name="d0e46"></a><p class="title"><b>Example&nbsp;1.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> TestAppApplication <span class="hl-keyword">extends</span> Application {
+    <span class="hl-keyword">public</span> Restlet createInboundRoot() {
+        (...)
+    }
+}</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="implementing-application-foundations-configuring-and-organizing-routing"></a>1.1.2.&nbsp;Configuring and organizing routing</h3></div></div></div><p>Routing configuration is done within the createInboundRoot method of your Restlet application class
+and mainly defined using the Router class. Following code describes a simple use case of routing
+configuration:
+
+</p><div class="example"><a name="d0e54"></a><p class="title"><b>Example&nbsp;1.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> Restlet createInboundRoot() {
+    Router router = <span class="hl-keyword">new</span> Router(getContext());
+
+    router.attach(<span class="hl-string">"login"</span>, LoginServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"logout"</span>, LogoutServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"myEntities/"</span>, NewsListServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"myEntities/{id}"</span>, NewsServerResource.<span class="hl-keyword">class</span>);
+
+    (...)
+
+    <span class="hl-keyword">return</span> router;
+}</pre></div></div><br class="example-break"><p>The sample above corresponds to a very simple use case. In more real and large applications, you have
+to define a more structing. As a matter of fact, the processing chain can be different according to
+resources. Let's take a concrete sample. You probably want to have your resources secured and it's
+not perhaps the case for static content.
+
+</p><p>For this particularly use case, a good practice consists in leveraging the matching mode of Restlet
+when attaching resources on routers. This allows defining inner routes for a particular paths. For
+example, all routes that starts with a pattern will match and handle by the sub route.
+
+</p><p>An important point to keep in mind is that matching is done sequentially and if a route matches,
+remaining routes won't be tested.
+
+</p><p>Following code describes how to define inner routes and to organize routing within your Restlet
+application:
+
+</p><div class="example"><a name="d0e65"></a><p class="title"><b>Example&nbsp;1.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> Restlet createInboundRoot() {
+    <span class="hl-keyword">this</span>.configuration = configureFreeMarker(getContext());
+
+    Router router = <span class="hl-keyword">new</span> Router(getContext());
+
+    router.attach(<span class="hl-string">"/static"</span>, createStaticApplication())
+            .setMatchingMode(Template.MODE_STARTS_WITH);
+
+    router.attach(<span class="hl-string">"/"</span>, createGlobalApplication())
+            .setMatchingMode(Template.MODE_STARTS_WITH);
+
+    <span class="hl-keyword">return</span> router;
+}</pre></div></div><br class="example-break"><p>Here are the skeletons of the createStaticApplication and createGlobalApplication methods:
+
+</p><div class="example"><a name="d0e70"></a><p class="title"><b>Example&nbsp;1.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">private</span> Restlet createStaticApplication() {
+        Router router = <span class="hl-keyword">new</span> Router(getContext());
+        (...)
+        <span class="hl-keyword">return</span> router;
+    }
+
+    <span class="hl-keyword">private</span> Restlet createGlobalApplication() {
+        Router router = <span class="hl-keyword">new</span> Router(getContext());
+        (...)
+        <span class="hl-keyword">return</span> router;
+    }</pre></div></div><br class="example-break"><p>You can notice that these classes haven't necessary to return a Router instance. An authenticator, a
+filter and so on are also possible.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="implementing-application-foundations-configuring-template-engines"></a>1.1.3.&nbsp;Configuring template engines</h3></div></div></div><p>You can choose to use template engines, like Freemarker or Velocity, to produce your representation
+content. This approach is particularly suitable when your representations are HTML pages.
+
+</p><p>In the case of Freemarker, you have to initialize the template configuration that mainly configures
+the place to find out template files. This initialization has to be specified within the application
+class since it must be executed once. You can access then from the application class within
+resource classes.
+
+</p><p>Following code shows a method that initializes a Configuration object stores as class variable within
+the application class:
+
+</p><div class="example"><a name="d0e84"></a><p class="title"><b>Example&nbsp;1.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">private</span> Configuration configuration;
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">static</span> Configuration configureFreeMarker(Context context) {
+        Configuration configuration = <span class="hl-keyword">new</span> Configuration();
+        ClassTemplateLoader loader = <span class="hl-keyword">new</span> ClassTemplateLoader(
+                TestAppApplication.<span class="hl-keyword">class</span>,
+                <span class="hl-string">"/org/restlet/tutorial/server/templates/"</span>);
+        configuration.setTemplateLoader(loader);
+        <span class="hl-comment">// configuration.setCacheStorage(new StrongCacheStorage());</span>
+        <span class="hl-keyword">return</span> configuration;
+    }
+
+    <span class="hl-keyword">public</span> Configuration getConfiguration() {
+        <span class="hl-keyword">return</span> configuration;
+    }</pre></div></div><br class="example-break"><p>You can notice that the configureFreeMarker method must be called from the createInboundRoot method
+when the application is actually initialized, as described below:
+
+</p><div class="example"><a name="d0e89"></a><p class="title"><b>Example&nbsp;1.6.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> Restlet createInboundRoot() {
+        <span class="hl-keyword">this</span>.configuration = configureFreeMarker(getContext());
+        (...)
+    }</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="implementing-application-foundations-configuring-static-content-serving"></a>1.1.4.&nbsp;Configuring static content serving</h3></div></div></div><p>Restlet allows easily serving static content using the Directory class. An instance of this class
+can be attached to a router for a specific path. The directory can serve all files contained in
+a specific folder with any folder depth. You can define this folder using supported protocols of
+Restlet like file and clap.
+
+</p><p>In the following code, you use a folder contained in our Restlet application from classpath using
+the CLAP protocol:
+
+</p><div class="example"><a name="d0e99"></a><p class="title"><b>Example&nbsp;1.7.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    Router router = <span class="hl-keyword">new</span> Router(getContext());
+    (...)
+
+    Directory directory = <span class="hl-keyword">new</span> Directory(getContext(),
+                <span class="hl-string">"clap://application/org/restlet/tutorial/server/static/"</span>);
+    directory.setDeeplyAccessible(true);
+    router.attach(<span class="hl-string">"/static"</span>, directory);</pre></div></div><br class="example-break"><p>You must be sure here to have registered the CLAP protocol. See the deployment sections to see how
+to register client protocols azccording to your target environment. You can also see the troubleshooting
+section if you have problems when using a client protocol.
+
+</p><p>You can notice that you can also reference static folder with an absolute path using the file protocol
+of Restlet. This approach isn't convenient for deployment that uses archive with content like Web archive
+(WAR) and OSGi bundle.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="implementing-application-foundations-linking-with-application-layers"></a>1.1.5.&nbsp;Linking with application layers</h3></div></div></div><p>Restlet corresponds to the Web layers and are based on business and data access layers for processing. The
+link should be done within the application class. As a matter of fact, entities of such layers are commonly
+singleton and it's also the case for the application. Restlet keeps a single instance for your application.
+Following code describes how to configure a dao within a Restlet application class:
+
+</p><div class="example"><a name="d0e111"></a><p class="title"><b>Example&nbsp;1.8.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> <span class="hl-keyword">class</span> TestAppApplication <span class="hl-keyword">extends</span> Application {
+        (...)
+        <span class="hl-keyword">private</span> MyEntityDao myEntityDao;
+        (...)
+
+        <span class="hl-keyword">public</span> TestAppApplication() {
+            myEntityDao = <span class="hl-keyword">new</span> MyEntityDaoImpl();
+            (...)
+        }
+
+        (...)
+
+        <span class="hl-keyword">public</span> MyEntityDao getMyEntityDao() {
+            <span class="hl-keyword">return</span> myEntityDao;
+        }
+    }</pre></div></div><br class="example-break"><p>In Restlet, resources aren't singletons and a best practice consists in using the application to get
+instances from business or data access layers.
+
+</p><div class="example"><a name="d0e116"></a><p class="title"><b>Example&nbsp;1.9.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyResource <span class="hl-keyword">extends</span> ServerResource {
+
+        @Get
+        <span class="hl-keyword">public</span> Representation getElements() {
+            MyEntityDao dao = ((TestAppApplication)getApplication()).getMyEntityDao();
+            (...)
+        }
+    }</pre></div></div><br class="example-break"><p>You can note that if you use IoC container, you can configure injection within the container itself
+since they commonly support injection of singletons within prototype entities.
+</p></div></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="servers.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="clients.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;II.&nbsp;Providing RESTful applications&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.restlet.com/" title="Noelios">Sponsored by Restlet SAS
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Part&nbsp;III.&nbsp;Accessing RESTful applications</td></tr></table></div></body></html>

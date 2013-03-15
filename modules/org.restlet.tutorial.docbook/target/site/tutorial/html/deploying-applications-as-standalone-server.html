@@ -1,0 +1,74 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;10.&nbsp;Deploying applications as standalone server</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Restlet Framework - Tutorial"><link rel="up" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="prev" href="working-with-beans.html" title="Chapter&nbsp;9.&nbsp;Working with beans"><link rel="next" href="deploying-applications-within-servlet-containers.html" title="Chapter&nbsp;11.&nbsp;Deploying applications within servlet containers"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.restlet.org/" title="Restlet Framework"><img style="border:none;" src="images/logo200.gif"></a><a style="border:none;" href="http://www.restlet.com/" title="Restlet SAS"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/logo101.png"></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="deploying-applications-as-standalone-server"></a>Chapter&nbsp;10.&nbsp;Deploying applications as standalone server</h2></div></div></div><p>Now you have a Restlet applications implemented based on previous described use cases:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Implementing a simple Web API</p></li><li><p>Implementing a Web application</p></li></ul></div><p>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-choosing-the-underlying-server"></a>10.1.&nbsp;Choosing the underlying server</h2></div></div></div><p>Restlet integrates a smart autodetect processing of available extensions. You simply have to put
+them in the classpath to make them available. This also applies for server connectors usable
+for a standalone Restlet server:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Internal NIO server</p></li><li><p>Simple framework</p></li></ul></div><p>By default, meaning no additional extension provided a server connector is available, the Restlet
+internal NIO server is used.
+
+</p><p>If you put the simple extension, the Simple Framework server will automatically use as underlying
+HTTP server. In this case, you will see messages like that in the traces:
+
+</p><pre class="programlisting">1 nov. 2012 11:35:05 org.restlet.ext.simple.SimpleServerHelper start
+INFO: Starting the Simple [HTTP/1.1] server on port 8182</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-creating-the-launch-processing"></a>10.2.&nbsp;Creating the launch processing</h2></div></div></div><p>There are two approaches when implementing the launch processing:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>At application level</p></li><li><p>At component level</p></li></ul></div><p>The first one is the simplest but the most restricted. It simply allows attaching a Restlet application
+to a server to execute it. But you can't set more configurations here. Following code describes how
+to implemente this approach:
+
+</p><div class="example"><a name="d0e257"></a><p class="title"><b>Example&nbsp;10.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Server server = <span class="hl-keyword">new</span> Server(Protocol.HTTP, 8182);
+server.setNext(<span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><p>The second on is the recommended one since it provides flexility when configuring application configuration
+for execution. Following lists gives a non-exhaustive list of supported elements for configuration:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Server connectors</p></li><li><p>Client connectors</p></li><li><p>Virtual hosts</p></li><li><p>Internal routing</p></li><li><p>Restlet services</p></li></ul></div><p>You first need to create a component and eventually set some hints about it as described below:
+
+</p><div class="example"><a name="d0e280"></a><p class="title"><b>Example&nbsp;10.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Component component = <span class="hl-keyword">new</span> Component();
+component.setName(<span class="hl-string">"My component"</span>);
+component.setDescription(<span class="hl-string">"My component description"</span>);
+component.setOwner(<span class="hl-string">"Restlet"</span>);
+component.setAuthor(<span class="hl-string">"The Restlet Team"</span>);</pre></div></div><br class="example-break"><p>The second important point to configure now is connectors for both server(s) and client(s). Since we want
+to make available a server application, a server protocol is mandatory, an HTTP one in our case. If you
+want to access other resources using Restlet, you need to add client protocols like <span class="emphasis"><em>FILE</em></span> or <span class="emphasis"><em>HTTP</em></span>. Following
+code describes how to configure such aspects:
+
+</p><div class="example"><a name="d0e291"></a><p class="title"><b>Example&nbsp;10.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">getServers().add(Protocol.HTTP, 8182);
+getClients().add(Protocol.FILE);
+getClients().add(Protocol.HTTP);
+getClients().add(Protocol.HTTPS);</pre></div></div><br class="example-break"><p>The final thing to do to configure our component is to define how to make available our application
+through the component. Several possibilities are supported within Restlet:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Using the default host:</p></li></ul></div><div class="example"><a name="d0e300"></a><p class="title"><b>Example&nbsp;10.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">component.getDefaultHost().attach(<span class="hl-string">"/app"</span>, <span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><div class="itemizedlist"><ul type="disc"><li><p>Using the internal router to only make available the application within a same process using the RIAP protocol:</p></li></ul></div><div class="example"><a name="d0e307"></a><p class="title"><b>Example&nbsp;10.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">component.getInternalRouter().attach(<span class="hl-string">"/app"</span>, <span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><div class="itemizedlist"><ul type="disc"><li><p>Using a virtual host to precisely control the domain to access the application:</p></li></ul></div><div class="example"><a name="d0e314"></a><p class="title"><b>Example&nbsp;10.6.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">VirtualHost virtualHost = <span class="hl-keyword">new</span> VirtualHost();
+virtualHost.setHostDomain(<span class="hl-string">"www.myapp.org"</span>);
+virtualHost.setHostPort(<span class="hl-string">"80|8182"</span>);
+component.getHosts().add(virtualHost);</pre></div></div><br class="example-break"><p>Let's finally see how startup and shutdown you server.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-launching-the-server"></a>10.3.&nbsp;Launching the server</h2></div></div></div><p>For both approaches, <span class="emphasis"><em>start</em></span> and <span class="emphasis"><em>stop</em></span> methods are available to start and stop the server
+
+</p><div class="example"><a name="d0e330"></a><p class="title"><b>Example&nbsp;10.7.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-comment">// Application level approach    </span>
+Server server = (...)
+server.start();
+
+<span class="hl-comment">// Component level approach</span>
+Component component = (...)
+component.start();</pre></div></div><br class="example-break"><p>You can notice that the <span class="emphasis"><em>start</em></span> method isn't blocking so you can consider using an stdin
+read line to detect when stopping the server, as described below:
+
+</p><div class="example"><a name="d0e338"></a><p class="title"><b>Example&nbsp;10.8.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">(...)
+System.out.println(<span class="hl-string">"Press a key to stop"</span>);
+System.in.read();
+
+<span class="hl-comment">// Application level approach    </span>
+<span class="hl-keyword">if</span> (server!=null) {
+    server.stop();
+}
+<span class="hl-comment">// Component level approach</span>
+<span class="hl-keyword">if</span> (component!=null) {
+    component.stop();
+}</pre></div></div><br class="example-break"></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="working-with-beans.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="deploying-applications-within-servlet-containers.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;9.&nbsp;Working with beans&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.restlet.com/" title="Noelios">Sponsored by Restlet SAS
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;11.&nbsp;Deploying applications within servlet containers</td></tr></table></div></body></html>

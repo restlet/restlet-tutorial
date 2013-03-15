@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<chapter id="troubleshooting">
+    <title>Troubleshooting</title>
+    <para>This section describes how to solve common server problems with Restlet.
+
+</para>
+    <section xml:id="troubleshooting-i-use-a-client-protocol-but-it-doesnt-seem-to-work-correctly">
+        <title>I use a client protocol but it doesn't seem to work correctly</title>
+        <para>TODO:
+
+</para>
+    </section>
+    <section xml:id="troubleshooting-i-try-to-read-twice-a-representation-and-restlet-throws-an-exception">
+        <title>I try to read twice a representation and Restlet throws an exception</title>
+        <para>TODO:
+</para>
+    </section>
+</chapter>

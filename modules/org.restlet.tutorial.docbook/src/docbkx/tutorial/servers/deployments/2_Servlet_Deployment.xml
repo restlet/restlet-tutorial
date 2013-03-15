@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<chapter id="deploying-applications-within-servlet-containers">
+    <title>Deploying applications within servlet containers</title>
+    <para>Now you have a Restlet applications implemented based on previous described use cases:
+
+</para>
+    <itemizedlist>
+        <listitem>
+            <para>Implementing a simple Web API</para>
+        </listitem>
+        <listitem>
+            <para>Implementing a Web application</para>
+        </listitem>
+    </itemizedlist>
+    <para>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</para>
+    <section xml:id="deploying-applications-within-servlet-containers-organizing-the-web-application">
+        <title>Organizing the Web application</title>
+        <para>There is nothing specific here to Restlet but you need to follow the organization of Web applications
+of Java EE, as below:
+
+</para>
+        <example>
+            <programlisting language="console">WebAppRoot
+    +- WEB-INF
+        +- classes
+        +- lib
+        -- web.xml</programlisting>
+        </example>
+        <para>The `WEB-INF/classes` folder must contain the classes of your Web application, `WEB-INF/lib` the jar files of
+the libraries and frameworks used and the `web.xml`, the configuration of the Web application.
+
+</para>
+        <para>You can notice that, in the case of GAE (Google App Engine), you need to add an additional file named
+appengine-web.xml within the `WEB-INF` folder for configurations related to the GAE environment.
+
+</para>
+    </section>
+    <section xml:id="deploying-applications-within-servlet-containers-configuring-the-web-application">
+        <title>Configuring the Web application</title>
+        <para>Restlet provides a servlet adapter for servlet container and Restlet applications must be configured in this case
+within the `web.xml` file. You will find all elements that can be configured on a Restlet component since this
+servlet corresponds to a wrapper upon it.
+
+</para>
+        <para>The following code describes the minimal content of the `web.xml` file to configure Restlet within a servlet
+environment:
+
+</para>
+        <example>
+            <programlisting language="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="myApplication" version="2.5"&gt;
+    &lt;display-name&gt;My Application&lt;/display-name&gt;
+
+    &lt;context-param&gt;
+        &lt;param-name&gt;org.restlet.application&lt;/param-name&gt;
+        &lt;param-value&gt;org.restlet.tutorial.MyApplication&lt;/param-value&gt;
+    &lt;/context-param&gt;
+
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;ServerServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.restlet.ext.servlet.ServerServlet&lt;/servlet-class&gt;
+    &lt;/servlet&gt;
+
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;ServerServlet&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;</programlisting>
+        </example>
+        <para>You can enhance this configuration by adding the client protocols you want to use with the `org.restlet.clients` attribute
+of the servlet, as described below:
+
+</para>
+        <example>
+            <programlisting language="xml">&lt;web-app (...)&gt;
+    &lt;servlet&gt;
+        (...)
+        &lt;init-param&gt;
+            &lt;param-name&gt;org.restlet.clients&lt;/param-name&gt;
+            &lt;param-value&gt;CLAP,HTTP&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+&lt;/web-app&gt;</programlisting>
+        </example>
+        <para>You probably have all you need with this approach but you also can choose to define your own component object and configure
+it within the `web.xml` file, as described below. In this case, initialization will take it rather than initialization parameters.
+
+</para>
+        <example>
+            <programlisting language="xml">&lt;web-app (...)&gt;
+    &lt;servlet&gt;
+        (...)
+        &lt;init-param&gt;
+            &lt;param-name&gt;org.restlet.component&lt;/param-name&gt;
+            &lt;param-value&gt;org.restlet.tutorial.MyComponent&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+&lt;/web-app&gt;</programlisting>
+        </example>
+        <para>In the case of deployment for GAE, the appengine-web.xml file contains configurations related to GAE
+and there is nothing regarding Restlet. The following code describes a minimal content for this file
+and you don't provide here more details. See the GAE documentation if necessary.
+
+</para>
+        <example>
+            <programlisting language="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;appengine-web-app xmlns="http://appengine.google.com/ns/1.0"&gt;
+    &lt;application&gt;myapplication&lt;/application&gt;
+    &lt;version&gt;1&lt;/version&gt;
+    &lt;threadsafe&gt;true&lt;/threadsafe&gt;
+    &lt;sessions-enabled&gt;false&lt;/sessions-enabled&gt;
+
+    &lt;system-properties&gt;
+        &lt;property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/&gt;
+    &lt;/system-properties&gt;
+
+    &lt;env-variables&gt;
+        &lt;env-var name="DEFAULT_ENCODING" value="ISO-8859-1" /&gt;
+    &lt;/env-variables&gt;
+&lt;/appengine-web-app&gt;</programlisting>
+        </example>
+        <para>Let's deploy now the application.
+
+</para>
+    </section>
+    <section xml:id="deploying-applications-within-servlet-containers-deploying-the-web-application">
+        <title>Deploying the Web application</title>
+        <para>Deployment of the application follows mechanisms provided by servlet container and different execution
+environment. For more details, have a look at the corresponding documentations.
+</para>
+    </section>
+</chapter>

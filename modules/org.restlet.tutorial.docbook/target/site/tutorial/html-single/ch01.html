@@ -1,0 +1,19 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;1.&nbsp;Test</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Restlet Framework - Tutorial"><link rel="up" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="prev" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="next" href="clients.html" title="Part&nbsp;III.&nbsp;Accessing RESTful applications"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.restlet.org/" title="Restlet Framework"><img style="border:none;" src="images/logo200.gif"></a><a style="border:none;" href="http://www.restlet.com/" title="Restlet SAS"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/logo101.png"></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="d0e33"></a>Chapter&nbsp;1.&nbsp;Test</h2></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations"></a>1.1.&nbsp;Implementing application foundations</h2></div></div></div><p>
+    In this section, we will implement foundations of your Restlet
+    server applications.
+  </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="application-class"></a>1.1.1.&nbsp;Application class</h3></div></div></div><p>
+      The central class of all Restlet applications is the class that
+      extends the Application one from Restlet what the chosen
+      deployment (standalone, servlet container and so). This class
+      mainly defines the way to access provided resources and acts as an
+      entry point.
+    </p><pre class="programlisting">
+public class TestAppApplication extends Application {
+    public Restlet createInboundRoot() {
+        (...)
+    }
+}
+</pre></div></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="servers.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="clients.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;II.&nbsp;Providing RESTful applications&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.restlet.com/" title="Noelios">Sponsored by Restlet SAS
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Part&nbsp;III.&nbsp;Accessing RESTful applications</td></tr></table></div></body></html>

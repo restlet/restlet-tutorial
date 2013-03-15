@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
+  <bookinfo>
+    <title>Restlet Framework - Tutorial</title>
+    <releaseinfo>&version;</releaseinfo>
+    
+    <authorgroup>
+      <author>
+        <firstname>Thierry</firstname>
+        <surname>Templier</surname>
+        <affiliation>Restlet</affiliation>
+      </author>
+    </authorgroup>
+
+
+    <legalnotice>
+      <para>Copies of this document may be made for your own use and for
+      distribution to others, provided that you do not charge any fee for such
+      copies and further provided that each copy contains this Copyright
+      Notice, whether distributed in print or electronically.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc />
+
+  <part id="intro">
+      <title>Introduction</title>
+      <partintro>
+          <para>
+              TODO: write part intro
+          </para>
+      </partintro>
+      <!--xi:include href="intro/intro-rest.xml"/>
+      <xi:include href="intro/intro-restlet.xml"/>
+      <xi:include href="intro/intro-case-study.xml"/-->
+  </part>
+
+  <part id="servers">
+      <title>Providing RESTful applications</title>
+      <partintro>
+          <para>
+              TODO: write part intro
+          </para>
+      </partintro>
+      <!-- Foundations -->
+      <xi:include href="servers/foundations/01_Application.xml"/>
+      <xi:include href="servers/foundations/02_Organizing_Routing.xml"/>
+      <xi:include href="servers/foundations/03_Security.xml"/>
+      <!-- Resources -->
+      <xi:include href="servers/resources/01_Resources.xml"/>
+      <xi:include href="servers/resources/02_Modularizing_Resources.xml"/>
+      <!-- Representations -->
+      <xi:include href="servers/representations/01_Working_With_JSON.xml"/>
+      <xi:include href="servers/representations/02_Working_With_XML.xml"/>
+      <xi:include href="servers/representations/03_Working_With_Templates.xml"/>
+      <xi:include href="servers/representations/04_Working_With_Beans.xml"/>
+      <!-- Advanced -->
+      <xi:include href="servers/advanced/01_Working_With_Headers.xml"/>
+      <xi:include href="servers/advanced/02_Optimize.xml"/>
+      <xi:include href="servers/advanced/03_Troubleshooting.xml"/>
+      <!-- Use cases -->
+      <xi:include href="servers/use-cases/01_Use_Case_Implementing_Simple_API.xml"/>
+      <xi:include href="servers/use-cases/02_Use_Case_Implementing_Webapp.xml"/>
+      <!-- Deployments -->
+      <xi:include href="servers/deployments/01_Standalone_Deployment.xml"/>
+      <xi:include href="servers/deployments/02_Servlet_Deployment.xml"/>
+  </part>
+
+  <part id="clients">
+     <title>Accessing RESTful applications</title>
+      <partintro>
+          <para>
+              TODO: write part intro
+          </para>
+      </partintro>
+      <!--xi:include href="clients/java-clients.xml"/>
+      <xi:include href="clients/java-clients-android.xml"/>
+      <xi:include href="clients/js-clients.xml"/-->
+  </part>
+</book>

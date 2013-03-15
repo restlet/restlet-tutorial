@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='utf-8'?>
+<chapter id="deploying-applications-as-standalone-server">
+    <title>Deploying applications as standalone server</title>
+    <para>Now you have a Restlet applications implemented based on previous described use cases:
+
+</para>
+    <itemizedlist>
+        <listitem>
+            <para>Implementing a simple Web API</para>
+        </listitem>
+        <listitem>
+            <para>Implementing a Web application</para>
+        </listitem>
+    </itemizedlist>
+    <para>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</para>
+    <section xml:id="deploying-applications-as-standalone-server-choosing-the-underlying-server">
+        <title>Choosing the underlying server</title>
+        <para>Restlet integrates a smart autodetect processing of available extensions. You simply have to put
+them in the classpath to make them available. This also applies for server connectors usable
+for a standalone Restlet server:
+
+</para>
+        <itemizedlist>
+            <listitem>
+                <para>Internal NIO server</para>
+            </listitem>
+            <listitem>
+                <para>Simple framework</para>
+            </listitem>
+        </itemizedlist>
+        <para>By default, meaning no additional extension provided a server connector is available, the Restlet
+internal NIO server is used.
+
+</para>
+        <para>If you put the simple extension, the Simple Framework server will automatically use as underlying
+HTTP server. In this case, you will see messages like that in the traces:
+
+</para>
+        <example>
+            <programlisting language="console">1 nov. 2012 11:35:05 org.restlet.ext.simple.SimpleServerHelper start
+INFO: Starting the Simple [HTTP/1.1] server on port 8182</programlisting>
+        </example>
+    </section>
+    <section xml:id="deploying-applications-as-standalone-server-creating-the-launch-processing">
+        <title>Creating the launch processing</title>
+        <para>There are two approaches when implementing the launch processing:
+
+</para>
+        <itemizedlist>
+            <listitem>
+                <para>At application level</para>
+            </listitem>
+            <listitem>
+                <para>At component level</para>
+            </listitem>
+        </itemizedlist>
+        <para>The first one is the simplest but the most restricted. It simply allows attaching a Restlet application
+to a server to execute it. But you can't set more configurations here. Following code describes how
+to implemente this approach:
+
+</para>
+        <example>
+            <programlisting language="java">Server server = new Server(Protocol.HTTP, 8182);
+server.setNext(new MyApplication());</programlisting>
+        </example>
+        <para>The second on is the recommended one since it provides flexility when configuring application configuration
+for execution. Following lists gives a non-exhaustive list of supported elements for configuration:
+
+</para>
+        <itemizedlist>
+            <listitem>
+                <para>Server connectors</para>
+            </listitem>
+            <listitem>
+                <para>Client connectors</para>
+            </listitem>
+            <listitem>
+                <para>Virtual hosts</para>
+            </listitem>
+            <listitem>
+                <para>Internal routing</para>
+            </listitem>
+            <listitem>
+                <para>Restlet services</para>
+            </listitem>
+        </itemizedlist>
+        <para>You first need to create a component and eventually set some hints about it as described below:
+
+</para>
+        <example>
+            <programlisting language="java">Component component = new Component();
+component.setName("My component");
+component.setDescription("My component description");
+component.setOwner("Restlet");
+component.setAuthor("The Restlet Team");</programlisting>
+        </example>
+        <para>The second important point to configure now is connectors for both server(s) and client(s). Since we want
+to make available a server application, a server protocol is mandatory, an HTTP one in our case. If you
+want to access other resources using Restlet, you need to add client protocols like <emphasis>FILE</emphasis> or <emphasis>HTTP</emphasis>. Following
+code describes how to configure such aspects:
+
+</para>
+        <example>
+            <programlisting language="java">getServers().add(Protocol.HTTP, 8182);
+getClients().add(Protocol.FILE);
+getClients().add(Protocol.HTTP);
+getClients().add(Protocol.HTTPS);</programlisting>
+        </example>
+        <para>The final thing to do to configure our component is to define how to make available our application
+through the component. Several possibilities are supported within Restlet:
+
+</para>
+        <itemizedlist>
+            <listitem>
+                <para>Using the default host:</para>
+            </listitem>
+        </itemizedlist>
+        <example>
+            <programlisting language="java">component.getDefaultHost().attach("/app", new MyApplication());</programlisting>
+        </example>
+        <itemizedlist>
+            <listitem>
+                <para>Using the internal router to only make available the application within a same process using the RIAP protocol:</para>
+            </listitem>
+        </itemizedlist>
+        <example>
+            <programlisting language="java">component.getInternalRouter().attach("/app", new MyApplication());</programlisting>
+        </example>
+        <itemizedlist>
+            <listitem>
+                <para>Using a virtual host to precisely control the domain to access the application:</para>
+            </listitem>
+        </itemizedlist>
+        <example>
+            <programlisting language="java">VirtualHost virtualHost = new VirtualHost();
+virtualHost.setHostDomain("www.myapp.org");
+virtualHost.setHostPort("80|8182");
+component.getHosts().add(virtualHost);</programlisting>
+        </example>
+        <para>Let's finally see how startup and shutdown you server.
+
+</para>
+    </section>
+    <section xml:id="deploying-applications-as-standalone-server-launching-the-server">
+        <title>Launching the server</title>
+        <para>For both approaches, <emphasis>start</emphasis> and <emphasis>stop</emphasis> methods are available to start and stop the server
+
+</para>
+        <example>
+            <programlisting language="java">// Application level approach    
+Server server = (...)
+server.start();
+
+// Component level approach
+Component component = (...)
+component.start();</programlisting>
+        </example>
+        <para>You can notice that the <emphasis>start</emphasis> method isn't blocking so you can consider using an stdin
+read line to detect when stopping the server, as described below:
+
+</para>
+        <example>
+            <programlisting language="java">(...)
+System.out.println("Press a key to stop");
+System.in.read();
+
+// Application level approach    
+if (server!=null) {
+    server.stop();
+}
+// Component level approach
+if (component!=null) {
+    component.stop();
+}</programlisting>
+        </example>
+    </section>
+</chapter>

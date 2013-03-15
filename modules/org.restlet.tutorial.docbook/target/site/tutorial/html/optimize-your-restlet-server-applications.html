@@ -1,0 +1,86 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;13.&nbsp;Optimize your Restlet server applications</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Restlet Framework - Tutorial"><link rel="up" href="servers.html" title="Part&nbsp;II.&nbsp;Providing RESTful applications"><link rel="prev" href="working-with-headers.html" title="Chapter&nbsp;12.&nbsp;Working with headers"><link rel="next" href="troubleshooting.html" title="Chapter&nbsp;14.&nbsp;Troubleshooting"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.restlet.org/" title="Restlet Framework"><img style="border:none;" src="images/logo200.gif"></a><a style="border:none;" href="http://www.restlet.com/" title="Restlet SAS"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/logo101.png"></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="optimize-your-restlet-server-applications"></a>Chapter&nbsp;13.&nbsp;Optimize your Restlet server applications</h2></div></div></div><p>This section describes some hints to optimize Restlet server applications.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-using-caching"></a>13.1.&nbsp;Using caching</h2></div></div></div><p>One possible optimization is not to serve related resources (like images, css...) when loading
+a particular resource with HTML content. An approach can be to use cache support provided by
+HTTP.
+
+</p><p>We describe here how to apply browser caching for all static elements loaded from a path with
+a subfolder called nocache. For these elements, headers for caching will be automatically added.
+For others, an expiration date of one month will be specified in headers.
+
+</p><p>This feature can be simply added with Restlet using filters within the method createInbountRoot of
+your application class. A filter containing caching stuff can to be added in front of the Restlet
+Directory that serves static content, as described below:
+
+</p><div class="example"><a name="d0e416"></a><p class="title"><b>Example&nbsp;13.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">router.attach(<span class="hl-string">"/static"</span>, <span class="hl-keyword">new</span> Filter(getContext(), <span class="hl-keyword">new</span> Directory(
+            getContext(), (...))) {
+    <span class="hl-keyword">protected</span> <span class="hl-keyword">void</span> afterHandle(Request request, Response response) {
+        <span class="hl-keyword">super</span>.afterHandle(request, response);
+        [adding caching stuff here]
+    }
+});</pre></div></div><br class="example-break"><p>Once the filter is added in the processing chain, we have to handle caching headers based on the
+Representation and Response objects. The noCache method of the Response automatically adds the
+related headers for no cache. For expiration date, the setExpirationDate method of the
+Representation allows defining the laps of time before reloading the element content. Following
+code describes the complete code:
+
+</p><div class="example"><a name="d0e421"></a><p class="title"><b>Example&nbsp;13.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">router.attach(<span class="hl-string">"/static"</span>, <span class="hl-keyword">new</span> Filter(getContext(), <span class="hl-keyword">new</span> Directory(
+            getContext(), (...))) {
+    <span class="hl-keyword">protected</span> <span class="hl-keyword">void</span> afterHandle(Request request, Response response) {
+        <span class="hl-keyword">super</span>.afterHandle(request, response);
+        <span class="hl-keyword">if</span> (response.getEntity() != null) {
+            <span class="hl-keyword">if</span> (request.getResourceRef().toString(false, false)
+                    .contains(<span class="hl-string">"nocache"</span>)) {
+                response.getEntity().setModificationDate(null);
+                response.getEntity().setExpirationDate(null);
+                response.getEntity().setTag(null);
+                response.getCacheDirectives().add(
+                            CacheDirective.noCache());
+            } <span class="hl-keyword">else</span> {
+                response.setStatus(Status.SUCCESS_OK);
+                Calendar c = <span class="hl-keyword">new</span> GregorianCalendar();
+                c.setTime(<span class="hl-keyword">new</span> Date());
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                response.getEntity().setExpirationDate(c.getTime());
+                response.getEntity().setModificationDate(null);
+            }
+        }
+    }
+});</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-compressing-content"></a>13.2.&nbsp;Compressing content</h2></div></div></div><p>Modern browsers support compression for received content. This allows to reduce payload of exchanged data.
+Restlet supports this feature for server-side application using the Encoder class. The latter can take place
+within the processing chain like router, authenticator and filter. You simply need to configure it within
+the method createInbountRoot of your application class, as described below:
+
+</p><div class="example"><a name="d0e429"></a><p class="title"><b>Example&nbsp;13.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Encoder encoder = <span class="hl-keyword">new</span> Encoder(getContext(), false, true, getEncoderService());
+encoder.setNext(router);
+<span class="hl-keyword">return</span> encoder;</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-configuring-specific-converters"></a>13.3.&nbsp;Configuring specific converters</h2></div></div></div><p>Example of Jackson converter.
+
+</p><div class="example"><a name="d0e437"></a><p class="title"><b>Example&nbsp;13.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">private</span> JacksonConverter getRegisteredJacksonConverter() {
+    JacksonConverter jacksonConverter = null;
+    List&lt;ConverterHelper&gt; converters = Engine.getInstance()
+            .getRegisteredConverters();
+    <span class="hl-keyword">for</span> (ConverterHelper converterHelper : converters) {
+        System.out.println(converterHelper.getClass());
+        <span class="hl-keyword">if</span> (converterHelper <span class="hl-keyword">instanceof</span> JacksonConverter) {
+            jacksonConverter = (JacksonConverter) converterHelper;
+            <span class="hl-keyword">break</span>;
+        }
+    }
+}</pre></div></div><br class="example-break"><p>Getting the ObjectMapper and configures it for data mapping.
+
+</p><div class="example"><a name="d0e442"></a><p class="title"><b>Example&nbsp;13.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">private</span> <span class="hl-keyword">void</span> configureJacksonConverter() {
+    JacksonConverter jacksonConverter = getRegisteredJacksonConverter();
+
+    <span class="hl-keyword">if</span> (jacksonConverter != null) {
+        ObjectMapper objectMapper = jacksonConverter.getObjectMapper();
+        objectMapper.configure(
+                SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        <span class="hl-comment">// objectMapper.configure(DeserializationFeature.WRITE_DATES_AS_TIMESTAMPS,</span>
+        <span class="hl-comment">// false);</span>
+        objectMapper.setDateFormat(
+                <span class="hl-keyword">new</span> SimpleDateFormat(<span class="hl-string">"yyyy-MM-dd"</span>));
+    }
+}</pre></div></div><br class="example-break"></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="working-with-headers.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="troubleshooting.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;12.&nbsp;Working with headers&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.restlet.com/" title="Noelios">Sponsored by Restlet SAS
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;14.&nbsp;Troubleshooting</td></tr></table></div></body></html>

@@ -1,0 +1,462 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Restlet Framework - Tutorial</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="d0e1"></a>Restlet Framework - Tutorial</h1></div><div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="authorgroup"><h2>Authors</h2><p></p><span class="author"><span class="firstname">Thierry</span> <span class="surname">Templier</span> 
+            (Restlet)
+            </span></div></div><div><p class="releaseinfo">0.1</p></div><div><div class="legalnotice"><a name="d0e15"></a><p>Copies of this document may be made for your own use and for
+      distribution to others, provided that you do not charge any fee for such
+      copies and further provided that each copy contains this Copyright
+      Notice, whether distributed in print or electronically.</p></div></div></div><hr></div><div class="toc"><dl><dt><span class="part"><a href="#intro">I. Introduction</a></span></dt><dt><span class="part"><a href="#servers">II. Providing RESTful applications</a></span></dt><dd><dl><dt><span class="chapter"><a href="#implementing-application-foundations">1. Implementing application foundations</a></span></dt><dd><dl><dt><span class="section"><a href="#implementing-application-foundations-application-class">1.1. Application class</a></span></dt><dt><span class="section"><a href="#implementing-application-foundations-configuring-and-organizing-routing">1.2. Configuring and organizing routing</a></span></dt><dt><span class="section"><a href="#implementing-application-foundations-configuring-template-engines">1.3. Configuring template engines</a></span></dt><dt><span class="section"><a href="#implementing-application-foundations-configuring-static-content-serving">1.4. Configuring static content serving</a></span></dt><dt><span class="section"><a href="#implementing-application-foundations-linking-with-application-layers">1.5. Linking with application layers</a></span></dt></dl></dd><dt><span class="chapter"><a href="#organizing-routing">2. Organizing routing</a></span></dt><dt><span class="chapter"><a href="#implementing-security">3. Implementing security</a></span></dt><dt><span class="chapter"><a href="#implementing-resources">4. Implementing resources</a></span></dt><dd><dl><dt><span class="section"><a href="#implementing-resources-a-simple-server-resource">4.1. A simple server resource</a></span></dt><dt><span class="section"><a href="#implementing-resources-adding-handling-methods">4.2. Adding handling methods</a></span></dt><dt><span class="section"><a href="#implementing-resources-using-server-resource-request-methods">4.3. Using server resource request methods</a></span></dt><dt><span class="section"><a href="#implementing-resources-using-server-resource-response-methods">4.4. Using server resource response methods</a></span></dt></dl></dd><dt><span class="chapter"><a href="#modularizing-resources">5. Modularizing resources</a></span></dt><dd><dl><dt><span class="section"><a href="#modularizing-resources-using-generics">5.1. Using generics</a></span></dt></dl></dd><dt><span class="chapter"><a href="#working-with-json">6. Working with JSON</a></span></dt><dt><span class="chapter"><a href="#working-with-xml">7. Working with XML</a></span></dt><dt><span class="chapter"><a href="#working-with-templates">8. Working with templates</a></span></dt><dt><span class="chapter"><a href="#working-with-beans">9. Working with beans</a></span></dt><dt><span class="chapter"><a href="#deploying-applications-as-standalone-server">10. Deploying applications as standalone server</a></span></dt><dd><dl><dt><span class="section"><a href="#deploying-applications-as-standalone-server-choosing-the-underlying-server">10.1. Choosing the underlying server</a></span></dt><dt><span class="section"><a href="#deploying-applications-as-standalone-server-creating-the-launch-processing">10.2. Creating the launch processing</a></span></dt><dt><span class="section"><a href="#deploying-applications-as-standalone-server-launching-the-server">10.3. Launching the server</a></span></dt></dl></dd><dt><span class="chapter"><a href="#deploying-applications-within-servlet-containers">11. Deploying applications within servlet containers</a></span></dt><dd><dl><dt><span class="section"><a href="#deploying-applications-within-servlet-containers-organizing-the-web-application">11.1. Organizing the Web application</a></span></dt><dt><span class="section"><a href="#deploying-applications-within-servlet-containers-configuring-the-web-application">11.2. Configuring the Web application</a></span></dt><dt><span class="section"><a href="#deploying-applications-within-servlet-containers-deploying-the-web-application">11.3. Deploying the Web application</a></span></dt></dl></dd><dt><span class="chapter"><a href="#working-with-headers">12. Working with headers</a></span></dt><dt><span class="chapter"><a href="#optimize-your-restlet-server-applications">13. Optimize your Restlet server applications</a></span></dt><dd><dl><dt><span class="section"><a href="#optimize-your-restlet-server-applications-using-caching">13.1. Using caching</a></span></dt><dt><span class="section"><a href="#optimize-your-restlet-server-applications-compressing-content">13.2. Compressing content</a></span></dt><dt><span class="section"><a href="#optimize-your-restlet-server-applications-configuring-specific-converters">13.3. Configuring specific converters</a></span></dt></dl></dd><dt><span class="chapter"><a href="#troubleshooting">14. Troubleshooting</a></span></dt><dd><dl><dt><span class="section"><a href="#troubleshooting-i-use-a-client-protocol-but-it-doesnt-seem-to-work-correctly">14.1. I use a client protocol but it doesn't seem to work correctly</a></span></dt><dt><span class="section"><a href="#troubleshooting-i-try-to-read-twice-a-representation-and-restlet-throws-an-exception">14.2. I try to read twice a representation and Restlet throws an exception</a></span></dt></dl></dd><dt><span class="chapter"><a href="#implementing-a-simple-web-api">15. Implementing a simple web API</a></span></dt><dt><span class="chapter"><a href="#implement-a-web-application">16. Implement a web application</a></span></dt></dl></dd><dt><span class="part"><a href="#clients">III. Accessing RESTful applications</a></span></dt></dl></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="intro"></a>Part&nbsp;I.&nbsp;Introduction</h1></div></div></div><div class="partintro" lang="en"><div></div><p>
+              TODO: write part intro
+          </p></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="servers"></a>Part&nbsp;II.&nbsp;Providing RESTful applications</h1></div></div></div><div class="partintro" lang="en"><div></div><p>
+              TODO: write part intro
+          </p></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="implementing-application-foundations"></a>Chapter&nbsp;1.&nbsp;Implementing application foundations</h2></div></div></div><p>In this section, we will implement foundations of your Restlet server applications.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations-application-class"></a>1.1.&nbsp;Application class</h2></div></div></div><p>The central class of all Restlet applications is the class that extends the Application one from
+Restlet what the chosen deployment (standalone, servlet container and so). This class mainly
+defines the way to access provided resources and acts as an entry point.
+
+</p><div class="example"><a name="d0e43"></a><p class="title"><b>Example&nbsp;1.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> TestAppApplication <span class="hl-keyword">extends</span> Application {
+    <span class="hl-keyword">public</span> Restlet createInboundRoot() {
+        (...)
+    }
+}</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations-configuring-and-organizing-routing"></a>1.2.&nbsp;Configuring and organizing routing</h2></div></div></div><p>Routing configuration is done within the createInboundRoot method of your Restlet application class
+and mainly defined using the Router class. Following code describes a simple use case of routing
+configuration:
+
+</p><div class="example"><a name="d0e51"></a><p class="title"><b>Example&nbsp;1.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> Restlet createInboundRoot() {
+    Router router = <span class="hl-keyword">new</span> Router(getContext());
+
+    router.attach(<span class="hl-string">"login"</span>, LoginServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"logout"</span>, LogoutServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"myEntities/"</span>, NewsListServerResource.<span class="hl-keyword">class</span>);
+    router.attach(<span class="hl-string">"myEntities/{id}"</span>, NewsServerResource.<span class="hl-keyword">class</span>);
+
+    (...)
+
+    <span class="hl-keyword">return</span> router;
+}</pre></div></div><br class="example-break"><p>The sample above corresponds to a very simple use case. In more real and large applications, you have
+to define a more structing. As a matter of fact, the processing chain can be different according to
+resources. Let's take a concrete sample. You probably want to have your resources secured and it's
+not perhaps the case for static content.
+
+</p><p>For this particularly use case, a good practice consists in leveraging the matching mode of Restlet
+when attaching resources on routers. This allows defining inner routes for a particular paths. For
+example, all routes that starts with a pattern will match and handle by the sub route.
+
+</p><p>An important point to keep in mind is that matching is done sequentially and if a route matches,
+remaining routes won't be tested.
+
+</p><p>Following code describes how to define inner routes and to organize routing within your Restlet
+application:
+
+</p><div class="example"><a name="d0e62"></a><p class="title"><b>Example&nbsp;1.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> Restlet createInboundRoot() {
+    <span class="hl-keyword">this</span>.configuration = configureFreeMarker(getContext());
+
+    Router router = <span class="hl-keyword">new</span> Router(getContext());
+
+    router.attach(<span class="hl-string">"/static"</span>, createStaticApplication())
+            .setMatchingMode(Template.MODE_STARTS_WITH);
+
+    router.attach(<span class="hl-string">"/"</span>, createGlobalApplication())
+            .setMatchingMode(Template.MODE_STARTS_WITH);
+
+    <span class="hl-keyword">return</span> router;
+}</pre></div></div><br class="example-break"><p>Here are the skeletons of the createStaticApplication and createGlobalApplication methods:
+
+</p><div class="example"><a name="d0e67"></a><p class="title"><b>Example&nbsp;1.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">private</span> Restlet createStaticApplication() {
+        Router router = <span class="hl-keyword">new</span> Router(getContext());
+        (...)
+        <span class="hl-keyword">return</span> router;
+    }
+
+    <span class="hl-keyword">private</span> Restlet createGlobalApplication() {
+        Router router = <span class="hl-keyword">new</span> Router(getContext());
+        (...)
+        <span class="hl-keyword">return</span> router;
+    }</pre></div></div><br class="example-break"><p>You can notice that these classes haven't necessary to return a Router instance. An authenticator, a
+filter and so on are also possible.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations-configuring-template-engines"></a>1.3.&nbsp;Configuring template engines</h2></div></div></div><p>You can choose to use template engines, like Freemarker or Velocity, to produce your representation
+content. This approach is particularly suitable when your representations are HTML pages.
+
+</p><p>In the case of Freemarker, you have to initialize the template configuration that mainly configures
+the place to find out template files. This initialization has to be specified within the application
+class since it must be executed once. You can access then from the application class within
+resource classes.
+
+</p><p>Following code shows a method that initializes a Configuration object stores as class variable within
+the application class:
+
+</p><div class="example"><a name="d0e81"></a><p class="title"><b>Example&nbsp;1.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">private</span> Configuration configuration;
+
+    <span class="hl-keyword">public</span> <span class="hl-keyword">static</span> Configuration configureFreeMarker(Context context) {
+        Configuration configuration = <span class="hl-keyword">new</span> Configuration();
+        ClassTemplateLoader loader = <span class="hl-keyword">new</span> ClassTemplateLoader(
+                TestAppApplication.<span class="hl-keyword">class</span>,
+                <span class="hl-string">"/org/restlet/tutorial/server/templates/"</span>);
+        configuration.setTemplateLoader(loader);
+        <span class="hl-comment">// configuration.setCacheStorage(new StrongCacheStorage());</span>
+        <span class="hl-keyword">return</span> configuration;
+    }
+
+    <span class="hl-keyword">public</span> Configuration getConfiguration() {
+        <span class="hl-keyword">return</span> configuration;
+    }</pre></div></div><br class="example-break"><p>You can notice that the configureFreeMarker method must be called from the createInboundRoot method
+when the application is actually initialized, as described below:
+
+</p><div class="example"><a name="d0e86"></a><p class="title"><b>Example&nbsp;1.6.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> Restlet createInboundRoot() {
+        <span class="hl-keyword">this</span>.configuration = configureFreeMarker(getContext());
+        (...)
+    }</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations-configuring-static-content-serving"></a>1.4.&nbsp;Configuring static content serving</h2></div></div></div><p>Restlet allows easily serving static content using the Directory class. An instance of this class
+can be attached to a router for a specific path. The directory can serve all files contained in
+a specific folder with any folder depth. You can define this folder using supported protocols of
+Restlet like file and clap.
+
+</p><p>In the following code, you use a folder contained in our Restlet application from classpath using
+the CLAP protocol:
+
+</p><div class="example"><a name="d0e96"></a><p class="title"><b>Example&nbsp;1.7.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    Router router = <span class="hl-keyword">new</span> Router(getContext());
+    (...)
+
+    Directory directory = <span class="hl-keyword">new</span> Directory(getContext(),
+                <span class="hl-string">"clap://application/org/restlet/tutorial/server/static/"</span>);
+    directory.setDeeplyAccessible(true);
+    router.attach(<span class="hl-string">"/static"</span>, directory);</pre></div></div><br class="example-break"><p>You must be sure here to have registered the CLAP protocol. See the deployment sections to see how
+to register client protocols azccording to your target environment. You can also see the troubleshooting
+section if you have problems when using a client protocol.
+
+</p><p>You can notice that you can also reference static folder with an absolute path using the file protocol
+of Restlet. This approach isn't convenient for deployment that uses archive with content like Web archive
+(WAR) and OSGi bundle.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-application-foundations-linking-with-application-layers"></a>1.5.&nbsp;Linking with application layers</h2></div></div></div><p>Restlet corresponds to the Web layers and are based on business and data access layers for processing. The
+link should be done within the application class. As a matter of fact, entities of such layers are commonly
+singleton and it's also the case for the application. Restlet keeps a single instance for your application.
+Following code describes how to configure a dao within a Restlet application class:
+
+</p><div class="example"><a name="d0e108"></a><p class="title"><b>Example&nbsp;1.8.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> <span class="hl-keyword">class</span> TestAppApplication <span class="hl-keyword">extends</span> Application {
+        (...)
+        <span class="hl-keyword">private</span> MyEntityDao myEntityDao;
+        (...)
+
+        <span class="hl-keyword">public</span> TestAppApplication() {
+            myEntityDao = <span class="hl-keyword">new</span> MyEntityDaoImpl();
+            (...)
+        }
+
+        (...)
+
+        <span class="hl-keyword">public</span> MyEntityDao getMyEntityDao() {
+            <span class="hl-keyword">return</span> myEntityDao;
+        }
+    }</pre></div></div><br class="example-break"><p>In Restlet, resources aren't singletons and a best practice consists in using the application to get
+instances from business or data access layers.
+
+</p><div class="example"><a name="d0e113"></a><p class="title"><b>Example&nbsp;1.9.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">    <span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyResource <span class="hl-keyword">extends</span> ServerResource {
+
+        @Get
+        <span class="hl-keyword">public</span> Representation getElements() {
+            MyEntityDao dao = ((TestAppApplication)getApplication()).getMyEntityDao();
+            (...)
+        }
+    }</pre></div></div><br class="example-break"><p>You can note that if you use IoC container, you can configure injection within the container itself
+since they commonly support injection of singletons within prototype entities.
+</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="organizing-routing"></a>Chapter&nbsp;2.&nbsp;Organizing routing</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="implementing-security"></a>Chapter&nbsp;3.&nbsp;Implementing security</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="implementing-resources"></a>Chapter&nbsp;4.&nbsp;Implementing resources</h2></div></div></div><p>Server resources are the elements that provide processing related to paths.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-resources-a-simple-server-resource"></a>4.1.&nbsp;A simple server resource</h2></div></div></div><p>Restlet provides the ServerResource class to implement server resource. A server resource is simply a sub-class of the ServerResource class.
+One specificity in Restlet is that a server resource instance is created for each REST request. So you can define class variables in it but
+they will be available for the request.
+
+</p><p>Following code describes a simple custom server resource:
+
+</p><div class="example"><a name="d0e137"></a><p class="title"><b>Example&nbsp;4.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyServerResource <span class="hl-keyword">extends</span> ServerResource {
+    (...)
+}</pre></div></div><br class="example-break"><p>The MyServerResource class can be attached to a path for the application, as described in the "Implementing application foundations" section.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-resources-adding-handling-methods"></a>4.2.&nbsp;Adding handling methods</h2></div></div></div><p>We can add now methods to handle HTTP methods for the path(s) the server resource is attached with. Restlet uses annotations for that, as listed
+below:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Get: the associated method handles an HTTP GET method</p></li><li><p>Put: the associated method handles an HTTP PUT method</p></li><li><p>Post: the associated method handles an HTTP POST method</p></li><li><p>Delete: the associated method handles an HTTP DELETE method</p></li><li><p>Head: the associated method handles an HTTP HEAD method</p></li></ul></div><p>The following code describes how to add annotated methods to a server resource class:
+
+</p><div class="example"><a name="d0e165"></a><p class="title"><b>Example&nbsp;4.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> MyServerResource <span class="hl-keyword">extends</span> ServerResource {
+    @Get
+    <span class="hl-keyword">public</span> Representation handleGetMethod() {
+        (...)
+    }
+
+    @Put
+    <span class="hl-keyword">public</span> Representation handlePutMethod() {
+        (...)
+    }
+
+    @Delete
+    <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> handleDeleteMethod() {
+        (...)
+    }
+}</pre></div></div><br class="example-break"><p>You can notice that the method signature defers according to the associated annotation. For example, we expect a GET method to send back
+a representation, a PUT one to receive and send back representations, a DELETE one to exchange no representation.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-resources-using-server-resource-request-methods"></a>4.3.&nbsp;Using server resource request methods</h2></div></div></div><p>When attaching server resources for a particular path, you can commonly define attributes. Accessing the request attributes
+Accessing the request query
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="implementing-resources-using-server-resource-response-methods"></a>4.4.&nbsp;Using server resource response methods</h2></div></div></div><p>Handling redirects
+</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="modularizing-resources"></a>Chapter&nbsp;5.&nbsp;Modularizing resources</h2></div></div></div><p>DRY (Don't Repeat Yourself (see http://en.wikipedia.org/wiki/DRY) is a common principle of sofware development that
+aimed at reducing repetition of information of all kinds. In this section, we will focus how aspects that helps
+to improve resource processing.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="modularizing-resources-using-generics"></a>5.1.&nbsp;Using generics</h2></div></div></div><p>Restlet supports generics to modularize common processing. Let's tackle such aspects when implementing
+CRUD processing for resources. As described previously in section XX, "", we implement list / add / update /
+delete operations based on two Restlet server resources:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>The one that handles element list and adding</p></li><li><p>The one that handles particular element</p></li></ul></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="working-with-json"></a>Chapter&nbsp;6.&nbsp;Working with JSON</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="working-with-xml"></a>Chapter&nbsp;7.&nbsp;Working with XML</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="working-with-templates"></a>Chapter&nbsp;8.&nbsp;Working with templates</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="working-with-beans"></a>Chapter&nbsp;9.&nbsp;Working with beans</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="deploying-applications-as-standalone-server"></a>Chapter&nbsp;10.&nbsp;Deploying applications as standalone server</h2></div></div></div><p>Now you have a Restlet applications implemented based on previous described use cases:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Implementing a simple Web API</p></li><li><p>Implementing a Web application</p></li></ul></div><p>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-choosing-the-underlying-server"></a>10.1.&nbsp;Choosing the underlying server</h2></div></div></div><p>Restlet integrates a smart autodetect processing of available extensions. You simply have to put
+them in the classpath to make them available. This also applies for server connectors usable
+for a standalone Restlet server:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Internal NIO server</p></li><li><p>Simple framework</p></li></ul></div><p>By default, meaning no additional extension provided a server connector is available, the Restlet
+internal NIO server is used.
+
+</p><p>If you put the simple extension, the Simple Framework server will automatically use as underlying
+HTTP server. In this case, you will see messages like that in the traces:
+
+</p><pre class="programlisting">1 nov. 2012 11:35:05 org.restlet.ext.simple.SimpleServerHelper start
+INFO: Starting the Simple [HTTP/1.1] server on port 8182</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-creating-the-launch-processing"></a>10.2.&nbsp;Creating the launch processing</h2></div></div></div><p>There are two approaches when implementing the launch processing:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>At application level</p></li><li><p>At component level</p></li></ul></div><p>The first one is the simplest but the most restricted. It simply allows attaching a Restlet application
+to a server to execute it. But you can't set more configurations here. Following code describes how
+to implemente this approach:
+
+</p><div class="example"><a name="d0e257"></a><p class="title"><b>Example&nbsp;10.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Server server = <span class="hl-keyword">new</span> Server(Protocol.HTTP, 8182);
+server.setNext(<span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><p>The second on is the recommended one since it provides flexility when configuring application configuration
+for execution. Following lists gives a non-exhaustive list of supported elements for configuration:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Server connectors</p></li><li><p>Client connectors</p></li><li><p>Virtual hosts</p></li><li><p>Internal routing</p></li><li><p>Restlet services</p></li></ul></div><p>You first need to create a component and eventually set some hints about it as described below:
+
+</p><div class="example"><a name="d0e280"></a><p class="title"><b>Example&nbsp;10.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Component component = <span class="hl-keyword">new</span> Component();
+component.setName(<span class="hl-string">"My component"</span>);
+component.setDescription(<span class="hl-string">"My component description"</span>);
+component.setOwner(<span class="hl-string">"Restlet"</span>);
+component.setAuthor(<span class="hl-string">"The Restlet Team"</span>);</pre></div></div><br class="example-break"><p>The second important point to configure now is connectors for both server(s) and client(s). Since we want
+to make available a server application, a server protocol is mandatory, an HTTP one in our case. If you
+want to access other resources using Restlet, you need to add client protocols like <span class="emphasis"><em>FILE</em></span> or <span class="emphasis"><em>HTTP</em></span>. Following
+code describes how to configure such aspects:
+
+</p><div class="example"><a name="d0e291"></a><p class="title"><b>Example&nbsp;10.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">getServers().add(Protocol.HTTP, 8182);
+getClients().add(Protocol.FILE);
+getClients().add(Protocol.HTTP);
+getClients().add(Protocol.HTTPS);</pre></div></div><br class="example-break"><p>The final thing to do to configure our component is to define how to make available our application
+through the component. Several possibilities are supported within Restlet:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Using the default host:</p></li></ul></div><div class="example"><a name="d0e300"></a><p class="title"><b>Example&nbsp;10.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">component.getDefaultHost().attach(<span class="hl-string">"/app"</span>, <span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><div class="itemizedlist"><ul type="disc"><li><p>Using the internal router to only make available the application within a same process using the RIAP protocol:</p></li></ul></div><div class="example"><a name="d0e307"></a><p class="title"><b>Example&nbsp;10.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">component.getInternalRouter().attach(<span class="hl-string">"/app"</span>, <span class="hl-keyword">new</span> MyApplication());</pre></div></div><br class="example-break"><div class="itemizedlist"><ul type="disc"><li><p>Using a virtual host to precisely control the domain to access the application:</p></li></ul></div><div class="example"><a name="d0e314"></a><p class="title"><b>Example&nbsp;10.6.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">VirtualHost virtualHost = <span class="hl-keyword">new</span> VirtualHost();
+virtualHost.setHostDomain(<span class="hl-string">"www.myapp.org"</span>);
+virtualHost.setHostPort(<span class="hl-string">"80|8182"</span>);
+component.getHosts().add(virtualHost);</pre></div></div><br class="example-break"><p>Let's finally see how startup and shutdown you server.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-as-standalone-server-launching-the-server"></a>10.3.&nbsp;Launching the server</h2></div></div></div><p>For both approaches, <span class="emphasis"><em>start</em></span> and <span class="emphasis"><em>stop</em></span> methods are available to start and stop the server
+
+</p><div class="example"><a name="d0e330"></a><p class="title"><b>Example&nbsp;10.7.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-comment">// Application level approach    </span>
+Server server = (...)
+server.start();
+
+<span class="hl-comment">// Component level approach</span>
+Component component = (...)
+component.start();</pre></div></div><br class="example-break"><p>You can notice that the <span class="emphasis"><em>start</em></span> method isn't blocking so you can consider using an stdin
+read line to detect when stopping the server, as described below:
+
+</p><div class="example"><a name="d0e338"></a><p class="title"><b>Example&nbsp;10.8.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">(...)
+System.out.println(<span class="hl-string">"Press a key to stop"</span>);
+System.in.read();
+
+<span class="hl-comment">// Application level approach    </span>
+<span class="hl-keyword">if</span> (server!=null) {
+    server.stop();
+}
+<span class="hl-comment">// Component level approach</span>
+<span class="hl-keyword">if</span> (component!=null) {
+    component.stop();
+}</pre></div></div><br class="example-break"></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="deploying-applications-within-servlet-containers"></a>Chapter&nbsp;11.&nbsp;Deploying applications within servlet containers</h2></div></div></div><p>Now you have a Restlet applications implemented based on previous described use cases:
+
+</p><div class="itemizedlist"><ul type="disc"><li><p>Implementing a simple Web API</p></li><li><p>Implementing a Web application</p></li></ul></div><p>it's time to see deploy and execute them within a server. Restlet provides several approaches
+for this issue and we will focus here on the one based on a standalone server.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-organizing-the-web-application"></a>11.1.&nbsp;Organizing the Web application</h2></div></div></div><p>There is nothing specific here to Restlet but you need to follow the organization of Web applications
+of Java EE, as below:
+
+</p><pre class="programlisting">WebAppRoot
+    +- WEB-INF
+        +- classes
+        +- lib
+        -- web.xml</pre><p>The `WEB-INF/classes` folder must contain the classes of your Web application, `WEB-INF/lib` the jar files of
+the libraries and frameworks used and the `web.xml`, the configuration of the Web application.
+
+</p><p>You can notice that, in the case of GAE (Google App Engine), you need to add an additional file named
+appengine-web.xml within the `WEB-INF` folder for configurations related to the GAE environment.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-configuring-the-web-application"></a>11.2.&nbsp;Configuring the Web application</h2></div></div></div><p>Restlet provides a servlet adapter for servlet container and Restlet applications must be configured in this case
+within the `web.xml` file. You will find all elements that can be configured on a Restlet component since this
+servlet corresponds to a wrapper upon it.
+
+</p><p>The following code describes the minimal content of the `web.xml` file to configure Restlet within a servlet
+environment:
+
+</p><div class="example"><a name="d0e373"></a><p class="title"><b>Example&nbsp;11.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="UTF-8"?</span>&gt;
+&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee"</span>
+         <span class="hl-attribute">xmlns:web</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>
+         <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://java.sun.com/xml/ns/javaee
+                  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span>
+         <span class="hl-attribute">id</span>=<span class="hl-value">"myApplication"</span> <span class="hl-attribute">version</span>=<span class="hl-value">"2.5"</span>&gt;
+    &lt;<span class="hl-tag">display-name</span>&gt;My Application&lt;<span class="hl-tag">/display-name</span>&gt;
+
+    &lt;<span class="hl-tag">context-param</span>&gt;
+        &lt;<span class="hl-tag">param-name</span>&gt;org.restlet.application&lt;<span class="hl-tag">/param-name</span>&gt;
+        &lt;<span class="hl-tag">param-value</span>&gt;org.restlet.tutorial.MyApplication&lt;<span class="hl-tag">/param-value</span>&gt;
+    &lt;<span class="hl-tag">/context-param</span>&gt;
+
+    &lt;<span class="hl-tag">servlet</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;ServerServlet&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">servlet-class</span>&gt;org.restlet.ext.servlet.ServerServlet&lt;<span class="hl-tag">/servlet-class</span>&gt;
+    &lt;<span class="hl-tag">/servlet</span>&gt;
+
+    &lt;<span class="hl-tag">servlet-mapping</span>&gt;
+        &lt;<span class="hl-tag">servlet-name</span>&gt;ServerServlet&lt;<span class="hl-tag">/servlet-name</span>&gt;
+        &lt;<span class="hl-tag">url-pattern</span>&gt;/*&lt;<span class="hl-tag">/url-pattern</span>&gt;
+    &lt;<span class="hl-tag">/servlet-mapping</span>&gt;
+&lt;<span class="hl-tag">/web-app</span>&gt;</pre></div></div><br class="example-break"><p>You can enhance this configuration by adding the client protocols you want to use with the `org.restlet.clients` attribute
+of the servlet, as described below:
+
+</p><div class="example"><a name="d0e378"></a><p class="title"><b>Example&nbsp;11.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">(...)&gt;</span>
+    <span class="hl-attribute">&lt;servlet&gt;</span>
+        <span class="hl-attribute">(...)</span>
+        <span class="hl-attribute">&lt;init-param&gt;</span>
+            <span class="hl-attribute">&lt;param-name&gt;org.restlet.clients&lt;/param-name&gt;</span>
+            <span class="hl-attribute">&lt;param-value&gt;CLAP,HTTP&lt;/param-value&gt;</span>
+        <span class="hl-attribute">&lt;/init-param&gt;</span>
+    <span class="hl-attribute">&lt;/servlet&gt;</span>
+<span class="hl-attribute">&lt;/web-app&gt;</span></pre></div></div><br class="example-break"><p>You probably have all you need with this approach but you also can choose to define your own component object and configure
+it within the `web.xml` file, as described below. In this case, initialization will take it rather than initialization parameters.
+
+</p><div class="example"><a name="d0e383"></a><p class="title"><b>Example&nbsp;11.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">web-app</span> <span class="hl-attribute">(...)&gt;</span>
+    <span class="hl-attribute">&lt;servlet&gt;</span>
+        <span class="hl-attribute">(...)</span>
+        <span class="hl-attribute">&lt;init-param&gt;</span>
+            <span class="hl-attribute">&lt;param-name&gt;org.restlet.component&lt;/param-name&gt;</span>
+            <span class="hl-attribute">&lt;param-value&gt;org.restlet.tutorial.MyComponent&lt;/param-value&gt;</span>
+        <span class="hl-attribute">&lt;/init-param&gt;</span>
+    <span class="hl-attribute">&lt;/servlet&gt;</span>
+<span class="hl-attribute">&lt;/web-app&gt;</span></pre></div></div><br class="example-break"><p>In the case of deployment for GAE, the appengine-web.xml file contains configurations related to GAE
+and there is nothing regarding Restlet. The following code describes a minimal content for this file
+and you don't provide here more details. See the GAE documentation if necessary.
+
+</p><div class="example"><a name="d0e388"></a><p class="title"><b>Example&nbsp;11.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">&lt;<span class="hl-tag">?xml version="1.0" encoding="utf-8"?</span>&gt;
+&lt;<span class="hl-tag">appengine-web-app</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://appengine.google.com/ns/1.0"</span>&gt;
+    &lt;<span class="hl-tag">application</span>&gt;myapplication&lt;<span class="hl-tag">/application</span>&gt;
+    &lt;<span class="hl-tag">version</span>&gt;1&lt;<span class="hl-tag">/version</span>&gt;
+    &lt;<span class="hl-tag">threadsafe</span>&gt;true&lt;<span class="hl-tag">/threadsafe</span>&gt;
+    &lt;<span class="hl-tag">sessions-enabled</span>&gt;false&lt;<span class="hl-tag">/sessions-enabled</span>&gt;
+
+    &lt;<span class="hl-tag">system-properties</span>&gt;
+        &lt;<span class="hl-tag">property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"java.util.logging.config.file"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"WEB-INF/logging.properties"</span>/&gt;
+    &lt;<span class="hl-tag">/system-properties</span>&gt;
+
+    &lt;<span class="hl-tag">env-variables</span>&gt;
+        &lt;<span class="hl-tag">env-var</span> <span class="hl-attribute">name</span>=<span class="hl-value">"DEFAULT_ENCODING"</span> <span class="hl-attribute">value</span>=<span class="hl-value">"ISO-8859-1"</span> /&gt;
+    &lt;<span class="hl-tag">/env-variables</span>&gt;
+&lt;<span class="hl-tag">/appengine-web-app</span>&gt;</pre></div></div><br class="example-break"><p>Let's deploy now the application.
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="deploying-applications-within-servlet-containers-deploying-the-web-application"></a>11.3.&nbsp;Deploying the Web application</h2></div></div></div><p>Deployment of the application follows mechanisms provided by servlet container and different execution
+environment. For more details, have a look at the corresponding documentations.
+</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="working-with-headers"></a>Chapter&nbsp;12.&nbsp;Working with headers</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="optimize-your-restlet-server-applications"></a>Chapter&nbsp;13.&nbsp;Optimize your Restlet server applications</h2></div></div></div><p>This section describes some hints to optimize Restlet server applications.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-using-caching"></a>13.1.&nbsp;Using caching</h2></div></div></div><p>One possible optimization is not to serve related resources (like images, css...) when loading
+a particular resource with HTML content. An approach can be to use cache support provided by
+HTTP.
+
+</p><p>We describe here how to apply browser caching for all static elements loaded from a path with
+a subfolder called nocache. For these elements, headers for caching will be automatically added.
+For others, an expiration date of one month will be specified in headers.
+
+</p><p>This feature can be simply added with Restlet using filters within the method createInbountRoot of
+your application class. A filter containing caching stuff can to be added in front of the Restlet
+Directory that serves static content, as described below:
+
+</p><div class="example"><a name="d0e416"></a><p class="title"><b>Example&nbsp;13.1.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">router.attach(<span class="hl-string">"/static"</span>, <span class="hl-keyword">new</span> Filter(getContext(), <span class="hl-keyword">new</span> Directory(
+            getContext(), (...))) {
+    <span class="hl-keyword">protected</span> <span class="hl-keyword">void</span> afterHandle(Request request, Response response) {
+        <span class="hl-keyword">super</span>.afterHandle(request, response);
+        [adding caching stuff here]
+    }
+});</pre></div></div><br class="example-break"><p>Once the filter is added in the processing chain, we have to handle caching headers based on the
+Representation and Response objects. The noCache method of the Response automatically adds the
+related headers for no cache. For expiration date, the setExpirationDate method of the
+Representation allows defining the laps of time before reloading the element content. Following
+code describes the complete code:
+
+</p><div class="example"><a name="d0e421"></a><p class="title"><b>Example&nbsp;13.2.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">router.attach(<span class="hl-string">"/static"</span>, <span class="hl-keyword">new</span> Filter(getContext(), <span class="hl-keyword">new</span> Directory(
+            getContext(), (...))) {
+    <span class="hl-keyword">protected</span> <span class="hl-keyword">void</span> afterHandle(Request request, Response response) {
+        <span class="hl-keyword">super</span>.afterHandle(request, response);
+        <span class="hl-keyword">if</span> (response.getEntity() != null) {
+            <span class="hl-keyword">if</span> (request.getResourceRef().toString(false, false)
+                    .contains(<span class="hl-string">"nocache"</span>)) {
+                response.getEntity().setModificationDate(null);
+                response.getEntity().setExpirationDate(null);
+                response.getEntity().setTag(null);
+                response.getCacheDirectives().add(
+                            CacheDirective.noCache());
+            } <span class="hl-keyword">else</span> {
+                response.setStatus(Status.SUCCESS_OK);
+                Calendar c = <span class="hl-keyword">new</span> GregorianCalendar();
+                c.setTime(<span class="hl-keyword">new</span> Date());
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                response.getEntity().setExpirationDate(c.getTime());
+                response.getEntity().setModificationDate(null);
+            }
+        }
+    }
+});</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-compressing-content"></a>13.2.&nbsp;Compressing content</h2></div></div></div><p>Modern browsers support compression for received content. This allows to reduce payload of exchanged data.
+Restlet supports this feature for server-side application using the Encoder class. The latter can take place
+within the processing chain like router, authenticator and filter. You simply need to configure it within
+the method createInbountRoot of your application class, as described below:
+
+</p><div class="example"><a name="d0e429"></a><p class="title"><b>Example&nbsp;13.3.&nbsp;</b></p><div class="example-contents"><pre class="programlisting">Encoder encoder = <span class="hl-keyword">new</span> Encoder(getContext(), false, true, getEncoderService());
+encoder.setNext(router);
+<span class="hl-keyword">return</span> encoder;</pre></div></div><br class="example-break"></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="optimize-your-restlet-server-applications-configuring-specific-converters"></a>13.3.&nbsp;Configuring specific converters</h2></div></div></div><p>Example of Jackson converter.
+
+</p><div class="example"><a name="d0e437"></a><p class="title"><b>Example&nbsp;13.4.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">private</span> JacksonConverter getRegisteredJacksonConverter() {
+    JacksonConverter jacksonConverter = null;
+    List&lt;ConverterHelper&gt; converters = Engine.getInstance()
+            .getRegisteredConverters();
+    <span class="hl-keyword">for</span> (ConverterHelper converterHelper : converters) {
+        System.out.println(converterHelper.getClass());
+        <span class="hl-keyword">if</span> (converterHelper <span class="hl-keyword">instanceof</span> JacksonConverter) {
+            jacksonConverter = (JacksonConverter) converterHelper;
+            <span class="hl-keyword">break</span>;
+        }
+    }
+}</pre></div></div><br class="example-break"><p>Getting the ObjectMapper and configures it for data mapping.
+
+</p><div class="example"><a name="d0e442"></a><p class="title"><b>Example&nbsp;13.5.&nbsp;</b></p><div class="example-contents"><pre class="programlisting"><span class="hl-keyword">private</span> <span class="hl-keyword">void</span> configureJacksonConverter() {
+    JacksonConverter jacksonConverter = getRegisteredJacksonConverter();
+
+    <span class="hl-keyword">if</span> (jacksonConverter != null) {
+        ObjectMapper objectMapper = jacksonConverter.getObjectMapper();
+        objectMapper.configure(
+                SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        <span class="hl-comment">// objectMapper.configure(DeserializationFeature.WRITE_DATES_AS_TIMESTAMPS,</span>
+        <span class="hl-comment">// false);</span>
+        objectMapper.setDateFormat(
+                <span class="hl-keyword">new</span> SimpleDateFormat(<span class="hl-string">"yyyy-MM-dd"</span>));
+    }
+}</pre></div></div><br class="example-break"></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="troubleshooting"></a>Chapter&nbsp;14.&nbsp;Troubleshooting</h2></div></div></div><p>This section describes how to solve common server problems with Restlet.
+
+</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="troubleshooting-i-use-a-client-protocol-but-it-doesnt-seem-to-work-correctly"></a>14.1.&nbsp;I use a client protocol but it doesn't seem to work correctly</h2></div></div></div><p>TODO:
+
+</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="troubleshooting-i-try-to-read-twice-a-representation-and-restlet-throws-an-exception"></a>14.2.&nbsp;I try to read twice a representation and Restlet throws an exception</h2></div></div></div><p>TODO:
+</p></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="implementing-a-simple-web-api"></a>Chapter&nbsp;15.&nbsp;Implementing a simple web API</h2></div></div></div></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="implement-a-web-application"></a>Chapter&nbsp;16.&nbsp;Implement a web application</h2></div></div></div></div></div><div class="part" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="clients"></a>Part&nbsp;III.&nbsp;Accessing RESTful applications</h1></div></div></div><div class="partintro" lang="en"><div></div><p>
+              TODO: write part intro
+          </p></div></div></div></body></html>
