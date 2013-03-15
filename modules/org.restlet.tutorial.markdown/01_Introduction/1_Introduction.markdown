@@ -1,3 +1,0 @@
-### The Restlet tutorial ###
-
-
