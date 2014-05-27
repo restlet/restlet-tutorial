@@ -15,7 +15,7 @@ __Detailled table of content__
 
 ### Application foundations ###
 
-[Applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/01_Application.md) [DONE]  
+[Applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/01_Application.md)   
 [Organizing routing] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/02_Organizing_Routing.md) [TODO]  
 [Implementing security] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/03_Security.md) [TODO]  
 
@@ -31,19 +31,19 @@ __Detailled table of content__
 
 ### Deployment ###
 
-[Standalone deployment] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/01_Standalone_Deployment.md) [DONE]  
-[Deployment in servlet container] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/02_Servlet_Deployment.md) [DONE]  
+[Standalone deployment] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/01_Standalone_Deployment.md)  
+[Deployment in servlet container] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/02_Servlet_Deployment.md)  
 
 ### Advanced issues ###
 
 [Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/01_Working_With_Headers.md) [TODO]  
-[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/02_Optimize.md) [DONE]  
+[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/02_Optimize.md)  
 [Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/03_Troubleshooting.md) [TODO]  
 
 ### Use cases ###
 
 [Implementing a simple API] (/modules/org.restlet.tutorial.webapi/)  
-[Implementing a Web application] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/02_Use_Case_Implementing_Webapp.md) [TODO]  
+[Implementing a Web application] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/02_Use_Case_Implementing_Webapp.md) [NEW] 
 
 ## Client-side support ##
 
@@ -58,6 +58,6 @@ __Detailled table of content__
 ### Advanced issues ###
 
 [Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/01_Working_With_Headers.md) [TODO]  
-[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/02_Optimize.md) [DONE]  
+[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/02_Optimize.md)  
 [Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/03_Troubleshooting.md) [TODO]  
 
