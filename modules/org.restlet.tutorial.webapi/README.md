@@ -47,7 +47,7 @@ This Web API contains 2 main resources :
 
 This is a diagram of the API : 
 
-![Diagram](/prototypes/RFWebApi/images/RFWebAPIReferenceImplementation.png)
+![Diagram](/modules/org.restlet.tutorial.webapi/images/RFWebAPIReferenceImplementation.png)
 
 > A Web API definition can be generated with [APISpark extension (RF 2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark). 
 
@@ -86,7 +86,7 @@ A resource ```/ping``` has been created which does not need authentication.
 
 ```GET 		http://localhost:9000/v1/ping```
 
-![Ping Example](/prototypes/RFWebApi/images/ping.png)
+![Ping Example](/modules/org.restlet.tutorial.webapi/images/ping.png)
 
 > For the following examples, Basic Authentication will be needed
 
@@ -107,13 +107,13 @@ A resource ```/ping``` has been created which does not need authentication.
 }
 ```
 
-![POST Companies](/prototypes/RFWebApi/images/POSTCompanies.png)
+![POST Companies](/modules/org.restlet.tutorial.webapi/images/POSTCompanies.png)
  
 > The returned status is : ```201 Created```.   
 
 The location of the created company is written is the "location" header.
  
- ![POST Companies headers](/prototypes/RFWebApi/images/POSTCompaniesHeaders.png)
+ ![POST Companies headers](/modules/org.restlet.tutorial.webapi/RFWebApi/images/POSTCompaniesHeaders.png)
  
 ### Retrieve all created companies 
  
@@ -142,7 +142,7 @@ The location of the created company is written is the "location" header.
 }
 ```
 
-![GET Companies](/prototypes/RFWebApi/images/GETCompanies.png)
+![GET Companies](/modules/org.restlet.tutorial.webapi/images/GETCompanies.png)
 
 > ```self``` element refers to the location of the object : ```http://localhost:9000/v1/companies/1```.
 > Try ```GET	http://localhost:9000/v1/companies/1``` !
@@ -177,7 +177,7 @@ The location of the created company is written is the "location" header.
 }
  ```
  
- ![PUT Contacts](/prototypes/RFWebApi/images/PUTContacts.png)
+ ![PUT Contacts](/modules/org.restlet.tutorial.webapi/images/PUTContacts.png)
 
 > The returned status is : ```201 Created```.   
  
@@ -208,7 +208,7 @@ It should retrieve :
 }
 ```
  
-  ![GET Contacts](/prototypes/RFWebApi/images/GETContacts.png)
+  ![GET Contacts](/modules/org.restlet.tutorial.webapi/images/GETContacts.png)
 
 > The field company is a reference to the location of the company
 
@@ -244,7 +244,7 @@ It should retrieve :
 }
 ```
 
-  ![GET Contacts](/prototypes/RFWebApi/images/GETContactsLoad.png)
+  ![GET Contacts](/modules/org.restlet.tutorial.webapi/images/GETContactsLoad.png)
  
 ### Modify an existing contact
 
@@ -271,7 +271,7 @@ It should retrieve :
 }
 ```
 
-  ![PUT Contacts](/prototypes/RFWebApi/images/PUTContacts2.png)
+  ![PUT Contacts](/modules/org.restlet.tutorial.webapi/images/PUTContacts2.png)
   
 > This time a ```200 OK ``` is returned because it is not a creation but an update.
 
