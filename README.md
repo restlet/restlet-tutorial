@@ -42,7 +42,7 @@ __Detailled table of content__
 
 ### Use cases ###
 
-[Implementing a simple API] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/01_Use_Case_Implementing_Simple_API.md) [TODO]  
+[Implementing a simple API] (/modules/org.restlet.tutorial.webapi/)  
 [Implementing a Web application] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/02_Use_Case_Implementing_Webapp.md) [TODO]  
 
 ## Client-side support ##
