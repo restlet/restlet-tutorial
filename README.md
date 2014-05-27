@@ -25,25 +25,25 @@ __Detailled table of content__
 
 ### Representations ###
 
-[Working with JSON] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/1_Working_With_JSON.md) [TODO]  
-[Working with XML] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/2_Working_With_XML.md) [TODO]  
-[Working with templates] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/3_Working_With_Templates.md) [TODO]  
+[Working with JSON] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/01_Working_With_JSON.md) [TODO]  
+[Working with XML] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/02_Working_With_XML.md) [TODO]  
+[Working with templates] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/03_Representations/03_Working_With_Templates.md) [TODO]  
 
 ### Deployment ###
 
-[Standalone deployment] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/1_Standalone_Deployment.md) [DONE]  
-[Deployment in servlet container] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/2_Servlet_Deployment.md) [DONE]  
+[Standalone deployment] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/01_Standalone_Deployment.md) [DONE]  
+[Deployment in servlet container] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/04_Server_Deployment/02_Servlet_Deployment.md) [DONE]  
 
 ### Advanced issues ###
 
-[Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/1_Working_With_Headers.md) [TODO]  
-[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/2_Optimize.md) [DONE]  
-[Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/3_Troubleshooting.md) [TODO]  
+[Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/01_Working_With_Headers.md) [TODO]  
+[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/02_Optimize.md) [DONE]  
+[Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/05_Server_Advanced/03_Troubleshooting.md) [TODO]  
 
 ### Use cases ###
 
-[Implementing a simple API] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/1_Use_Case_Implementing_Simple_API.md) [TODO]  
-[Implementing a Web application] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/2_Use_Case_Implementing_Webapp.md) [TODO]  
+[Implementing a simple API] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/01_Use_Case_Implementing_Simple_API.md) [TODO]  
+[Implementing a Web application] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/06_Use_Cases/02_Use_Case_Implementing_Webapp.md) [TODO]  
 
 ## Client-side support ##
 
@@ -57,7 +57,7 @@ __Detailled table of content__
 
 ### Advanced issues ###
 
-[Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/1_Working_With_Headers.md) [TODO]  
-[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/2_Optimize.md) [DONE]  
-[Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/3_Troubleshooting.md) [TODO]  
+[Working with headers] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/01_Working_With_Headers.md) [TODO]  
+[Optimizing applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/02_Optimize.md) [DONE]  
+[Troubleshooting] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/03_Client_Side/03_Client_Advanced/03_Troubleshooting.md) [TODO]  
 
