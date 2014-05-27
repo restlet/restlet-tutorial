@@ -1,0 +1,4 @@
+Review all statuses
+Improve logger
+WADL documentation not finished
+Improve documentation (particularly Implementation choices & Next steps)
