@@ -123,7 +123,7 @@ A resource ```/ping``` has been created which does not need authentication.
 
 The location of the created company is written is the "location" header.
  
- ![POST Companies headers](/modules/org.restlet.tutorial.webapi/RFWebApi/images/POSTCompaniesHeaders.png)
+ ![POST Companies headers](/modules/org.restlet.tutorial.webapi/images/POSTCompaniesHeaders.png)
  
 ### Retrieve all created companies 
  
