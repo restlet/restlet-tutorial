@@ -3,12 +3,22 @@
 ## Prerequisites
 
 * mySQL installed on your machine : [mySQL installation link](http://dev.mysql.com/downloads/)
+* maven installed on your machine : [Maven documentation link](http://maven.apache.org/index.html)
 
 > This example uses [Restlet Framework 2.2.1](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition).
 
 > Restlet framework user guide is available [here](http://restlet.com/learn/guide/2.3/).
 
 ## Installation 
+
+### Install maven project
+
+To install maven : 
+* Go to the directory 
+* Execute ```mvn clean install```
+* For eclipse users : run ```mvn eclipse:eclipse```
+
+> For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
 
 ### Create a mySQL database
 	
