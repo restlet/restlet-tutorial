@@ -15,7 +15,7 @@ __Detailled table of content__
 
 ### Application foundations ###
 
-[Applications] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/01_Application.md) [DONE]  
+[Applications] (https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/01_Application.md) [DONE]  
 [Organizing routing] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/02_Organizing_Routing.md) [TODO]  
 [Implementing security] (/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.markdown/02_Server_Side/01_Server_Application_Foundations/03_Security.md) [TODO]  
 
