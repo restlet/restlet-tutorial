@@ -1,4 +1,4 @@
-package org.restlet.api.representation;
+package org.restlet.tutorial.representation;
 
 import java.util.ArrayList;
 import java.util.List;

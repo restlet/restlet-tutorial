@@ -1,4 +1,4 @@
-package org.restlet.api.persistence;
+package org.restlet.tutorial.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.restlet.Context;
-import org.restlet.api.persistence.entity.Company;
-import org.restlet.api.persistence.entity.Contact;
+import org.restlet.tutorial.persistence.entity.Company;
+import org.restlet.tutorial.persistence.entity.Contact;
 
 public abstract class PersistenceService<T> {
 

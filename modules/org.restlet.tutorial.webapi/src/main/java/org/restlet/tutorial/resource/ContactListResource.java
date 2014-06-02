@@ -1,8 +1,8 @@
-package org.restlet.api.resource;
+package org.restlet.tutorial.resource;
 
-import org.restlet.api.representation.ContactListRepresentation;
-import org.restlet.api.representation.ContactWithCompanyListRepresentation;
 import org.restlet.resource.Get;
+import org.restlet.tutorial.representation.ContactListRepresentation;
+import org.restlet.tutorial.representation.ContactWithCompanyListRepresentation;
 
 public interface ContactListResource {
 

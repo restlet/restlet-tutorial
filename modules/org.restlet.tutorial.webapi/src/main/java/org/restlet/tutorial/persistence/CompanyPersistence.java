@@ -1,4 +1,4 @@
-package org.restlet.api.persistence;
+package org.restlet.tutorial.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.restlet.Context;
-import org.restlet.api.persistence.entity.Company;
+import org.restlet.tutorial.persistence.entity.Company;
 
 /**
  * Makes operations on the table Company. (CRUD)

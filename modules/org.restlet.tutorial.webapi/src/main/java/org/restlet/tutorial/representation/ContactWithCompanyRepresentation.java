@@ -1,14 +1,10 @@
-package org.restlet.api.persistence.entity;
+package org.restlet.tutorial.representation;
 
-/**
- * Represent the entity Contact stored in th database.
- * 
- * @author Guillaume Blondeau
- * 
- */
-public class Contact {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-    private String id;
+@JsonInclude(Include.NON_NULL)
+public class ContactWithCompanyRepresentation {
 
     private String email;
 
@@ -18,15 +14,9 @@ public class Contact {
 
     private String firstName;
 
-    private String companyId;
+    private CompanyRepresentation company;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String self;
 
     public String getEmail() {
         return email;
@@ -52,12 +42,20 @@ public class Contact {
         this.firstName = firstName;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public CompanyRepresentation getCompany() {
+        return company;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setCompany(CompanyRepresentation company) {
+        this.company = company;
+    }
+
+    public String getSelf() {
+        return self;
+    }
+
+    public void setSelf(String self) {
+        this.self = self;
     }
 
     public int getAge() {

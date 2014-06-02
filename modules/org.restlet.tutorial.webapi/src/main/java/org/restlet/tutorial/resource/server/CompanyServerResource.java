@@ -1,17 +1,17 @@
-package org.restlet.api.resource.server;
+package org.restlet.tutorial.resource.server;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import org.restlet.api.WebApiTutorial;
-import org.restlet.api.persistence.PersistenceService;
-import org.restlet.api.persistence.entity.Company;
-import org.restlet.api.representation.CompanyRepresentation;
-import org.restlet.api.resource.CompanyResource;
-import org.restlet.api.utils.CompanyUtils;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.persistence.PersistenceService;
+import org.restlet.tutorial.persistence.entity.Company;
+import org.restlet.tutorial.representation.CompanyRepresentation;
+import org.restlet.tutorial.resource.CompanyResource;
+import org.restlet.tutorial.utils.CompanyUtils;
 
 public class CompanyServerResource extends ServerResource implements
         CompanyResource {

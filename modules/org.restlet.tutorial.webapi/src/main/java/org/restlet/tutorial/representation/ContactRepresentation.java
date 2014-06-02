@@ -1,4 +1,4 @@
-package org.restlet.api.representation;
+package org.restlet.tutorial.representation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

@@ -1,7 +1,7 @@
-package org.restlet.api.utils;
+package org.restlet.tutorial.utils;
 
-import org.restlet.api.persistence.entity.Company;
-import org.restlet.api.representation.CompanyRepresentation;
+import org.restlet.tutorial.persistence.entity.Company;
+import org.restlet.tutorial.representation.CompanyRepresentation;
 
 public class CompanyUtils {
 

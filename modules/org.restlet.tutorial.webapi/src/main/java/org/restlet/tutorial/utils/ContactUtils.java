@@ -1,8 +1,8 @@
-package org.restlet.api.utils;
+package org.restlet.tutorial.utils;
 
-import org.restlet.api.persistence.entity.Contact;
-import org.restlet.api.representation.ContactRepresentation;
-import org.restlet.api.representation.ContactWithCompanyRepresentation;
+import org.restlet.tutorial.persistence.entity.Contact;
+import org.restlet.tutorial.representation.ContactRepresentation;
+import org.restlet.tutorial.representation.ContactWithCompanyRepresentation;
 
 public class ContactUtils {
 

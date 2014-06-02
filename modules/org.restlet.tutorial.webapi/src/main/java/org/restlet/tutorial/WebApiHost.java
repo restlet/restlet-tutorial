@@ -1,8 +1,8 @@
-package org.restlet.api;
+package org.restlet.tutorial;
 
 import org.restlet.Component;
-import org.restlet.api.persistence.PersistenceService;
 import org.restlet.data.Protocol;
+import org.restlet.tutorial.persistence.PersistenceService;
 
 public class WebApiHost {
 

@@ -1,8 +1,8 @@
-package org.restlet.api.resource.server;
+package org.restlet.tutorial.resource.server;
 
-import org.restlet.api.WebApiHost;
 import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
+import org.restlet.tutorial.WebApiHost;
 
 public class PingServerResource extends ServerResource {
 

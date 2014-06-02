@@ -1,18 +1,18 @@
-package org.restlet.api;
+package org.restlet.tutorial;
 
 import org.restlet.Application;
 import org.restlet.Restlet;
-import org.restlet.api.resource.server.CompanyListServerResource;
-import org.restlet.api.resource.server.CompanyServerResource;
-import org.restlet.api.resource.server.ContactListServerResource;
-import org.restlet.api.resource.server.ContactServerResource;
-import org.restlet.api.resource.server.PingServerResource;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.MemoryRealm;
 import org.restlet.security.Role;
 import org.restlet.security.User;
+import org.restlet.tutorial.resource.server.CompanyListServerResource;
+import org.restlet.tutorial.resource.server.CompanyServerResource;
+import org.restlet.tutorial.resource.server.ContactListServerResource;
+import org.restlet.tutorial.resource.server.ContactServerResource;
+import org.restlet.tutorial.resource.server.PingServerResource;
 
 public class WebApiTutorial extends Application {
 

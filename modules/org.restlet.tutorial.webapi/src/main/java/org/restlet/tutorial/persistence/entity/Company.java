@@ -1,18 +1,17 @@
-package org.restlet.api.representation;
+package org.restlet.tutorial.persistence.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+/**
+ * Reprensent the entity company stored in the database.
+ * 
+ * @author Guillaume Blondeau
+ * 
+ */
+public class Company {
 
-@JacksonXmlRootElement(localName = "company")
-@JsonInclude(Include.NON_NULL)
-public class CompanyRepresentation {
+    private String id;
 
-    /*
-     * http://en.wikipedia.org/wiki/Data_Universal_Numbering_System
-     */
     private String duns;
 
     private String address;
@@ -29,14 +28,20 @@ public class CompanyRepresentation {
 
     private String name;
 
-    private String self;
-    
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDuns() {
@@ -93,14 +98,6 @@ public class CompanyRepresentation {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getSelf() {
-        return self;
-    }
-
-    public void setSelf(String self) {
-        this.self = self;
     }
 
 }
