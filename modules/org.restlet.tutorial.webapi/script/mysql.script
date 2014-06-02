@@ -28,5 +28,5 @@ CREATE TABLE Contact (
     FOREIGN KEY (company_id) REFERENCES Company(id)
 ); 
 
-CREATE USER test@localhost IDENTIFIED BY 'test';
+CREATE USER 'test@localhost' IDENTIFIED BY 'test';
 GRANT ALL PRIVILEGES ON *.* TO test@localhost WITH GRANT OPTION;
