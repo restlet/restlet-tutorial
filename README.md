@@ -24,7 +24,7 @@ To install maven :
 
 ### Create a mySQL database
 	
-A script was created : ```scripts/mysql.script```. You just have to execute it in your mySQL console.  
+A script was created : ```scripts/mysql.script```. You just have to execute it in your mySQL console (you must have admin rights).  
 If you want to change settings to access you database, you can do it in ```org.restlet.persistence.PersistenceService.java```.
 
 ### Run this application
