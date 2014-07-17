@@ -30,6 +30,5 @@
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-util/8.1.14.v20131031/jetty-util-8.1.14.v20131031.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/restlet/jse/org.restlet.ext.xml/2.2.1/org.restlet.ext.xml-2.2.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/restlet/jse/org.restlet.ext.wadl/2.2.1/org.restlet.ext.wadl-2.2.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/restlet/jse/org.restlet.ext.apispark/2.3-SNAPSHOT/org.restlet.ext.apispark-2.3-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar"/>
 </classpath>
