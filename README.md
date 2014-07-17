@@ -10,7 +10,7 @@
 > This example uses [Restlet Framework 2.2.1](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition).
 
 > Restlet framework user guide is available [here](http://restlet.com/learn/guide/2.3/).
-> You can clone this repository and go to ```/modules/org.restlet.tutorial.webapi/``` folder.
+> You can also clone this repository and go to ```/modules/org.restlet.tutorial.webapi/``` folder.
 
 ## Installation 
 
