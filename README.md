@@ -37,7 +37,7 @@ Two files will be created :
  * ```webapitutorial-app-x-x.log```
  * ```webapitutorial-requests-x-x.log```   
 
-They are both situated in ```tmp``` folder.  
+They are both situated in ```/tmp``` folder.  
 To simplify the launch of the application, authentication and authorization are done in-memory
 (You can overwrite that with you own authentication system). Here are the login/password available:
 
