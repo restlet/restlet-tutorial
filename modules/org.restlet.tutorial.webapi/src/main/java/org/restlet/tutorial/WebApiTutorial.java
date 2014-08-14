@@ -49,7 +49,6 @@ public class WebApiTutorial extends Application {
          * whether the api is alive or not.
          */
         Router baseRouter = new Router(getContext());
-        baseRouter.setRoutingMode(Router.MODE_FIRST_MATCH);
         baseRouter.attach("/ping", PingServerResource.class);
 
         /*
@@ -59,7 +58,7 @@ public class WebApiTutorial extends Application {
         Router apiRouter = createApiRouter();
         apiGuard.setNext(apiRouter);
 
-        baseRouter.attach(apiGuard);
+        baseRouter.attachDefault(apiGuard);
         return baseRouter;
     }
 
