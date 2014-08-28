@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-* MySQL installed on your machine : [mySQL installation link](http://dev.mysql.com/downloads/)
+* MySQL installed on your machine : [MySQL installation link](http://dev.mysql.com/downloads/)
 * Maven installed on your machine : [Maven documentation link](http://maven.apache.org/index.html)
 
 > The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi)
