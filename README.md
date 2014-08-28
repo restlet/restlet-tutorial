@@ -39,7 +39,7 @@ Two files will be created :
 
 They are both situated in ```/tmp``` folder.  
 To simplify the launch of the application, authentication and authorization are done in-memory
-(You can overwrite that with you own authentication system). Here are the login/password available:
+(You should  overwrite that with you own authentication system). Here are the login/password available:
 
 * admin/admin : to get admin role
 * owner/owner : to get owner role
@@ -72,7 +72,7 @@ This is a diagram of the API :
 
 ## Next steps
 
-These are some indication to go further in the project
+Here are some instructions to go further with this project
 
  * Persistence layer 
  	* For each operation a new connection is created.
@@ -80,7 +80,7 @@ These are some indication to go further in the project
  	* It is possible to totally dissociate the persistence layer from the Server Resources. 
  	It would allow the use of several persitence layers. It would also be possible to use dependency injection.
  * Authentication/Authorization
- 	* It is possible to use an in database users/roles instead of an in-memory one. 
+ 	* It is strongly recommended to store users/roles in a database instead of in-memory. 
  	You can create a custom [SecretVerifier](http://restlet.org/learn/javadocs/2.2/jse/api/org/restlet/security/SecretVerifier.html)
  	 and [Enroler](http://restlet.org/learn/javadocs/2.2/jse/api/org/restlet/security/Enroler.html).
  	* It is possible to handle autorizations in a filter instead of at the beginning of each class. 
