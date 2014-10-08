@@ -112,13 +112,7 @@ CompanyRepresentation companyReprIn) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,
                     "Wrong body");
         }
-        String isWellFormed = isWellFormed(companyReprIn);
-        if (!isWellFormed.isEmpty()) {
-            getLogger().info("Body : wrong arguments " + isWellFormed);
-            throw new ResourceException(
-                    Status.CLIENT_ERROR_UNPROCESSABLE_ENTITY,
-                    "Wrong arguments : " + isWellFormed);
-        }
+        checkWellFormed(companyReprIn);
 
         getLogger().finest("Entity checked");
 
@@ -167,12 +161,13 @@ CompanyRepresentation companyReprIn) {
         }
     }
 
-    private String isWellFormed(CompanyRepresentation companyReprIn) {
-        if (companyReprIn.getDuns() != null
-                && companyReprIn.getDuns().length() != 9) {
-            return "Company DUNS should have a size of 9";
+    private void checkWellFormed(CompanyRepresentation companyReprIn) {
+        if (companyReprIn.getDuns() == null
+                || companyReprIn.getDuns().length() != 9) {
+            throw new ResourceException(
+                    Status.CLIENT_ERROR_UNPROCESSABLE_ENTITY,
+                    "'duns' length should be 9");
         }
-        return "";
     }
 
 }
