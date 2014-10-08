@@ -85,13 +85,13 @@ public abstract class PersistenceService<T> {
      * Factories
      */
 
-    public static PersistenceService<Contact> getContactPersistence() {
+    public static ContactPersistence getContactPersistence() {
         Context.getCurrentLogger().finer(
                 "Method getContactPersistence() of PersistenceService called.");
         return ContactPersistence.getContactPersistence();
     }
 
-    public static PersistenceService<Company> getCompanyPersistence() {
+    public static CompanyPersistence getCompanyPersistence() {
         Context.getCurrentLogger().finer(
                 "Method getCompanyPersistence() of PersistenceService called.");
         return CompanyPersistence.getCompanyPersistence();

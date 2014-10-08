@@ -8,6 +8,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.persistence.ContactPersistence;
 import org.restlet.tutorial.persistence.PersistenceService;
 import org.restlet.tutorial.persistence.entity.Company;
 import org.restlet.tutorial.persistence.entity.Contact;
@@ -22,7 +23,7 @@ import org.restlet.tutorial.utils.ContactUtils;
 public class ContactListServerResource extends ServerResource implements
 ContactListResource {
 
-    private PersistenceService<Contact> persistenceService;
+    private ContactPersistence contactPersistence;
 
     /*
      * Method called at the creation of the Resource (ie : each time the
@@ -38,7 +39,7 @@ ContactListResource {
          * Initialize a persistence class which will be called to do operations
          * on the database.
          */
-        persistenceService = PersistenceService.getContactPersistence();
+        contactPersistence = PersistenceService.getContactPersistence();
 
         getLogger().finer(
                 "Method doInit() of ContactListServerResource finished.");
@@ -75,7 +76,7 @@ ContactListResource {
                 /*
                  * Retrieve List<Contact> from persistence layer
                  */
-                contactsOut = persistenceService.findAll();
+                contactsOut = contactPersistence.findAll();
 
             } else {
 
@@ -97,7 +98,7 @@ ContactListResource {
                 /*
                  * Retrieve List<Contact> from persistence layer
                  */
-                contactsOut = persistenceService.findBy("company_id", companies
+                contactsOut = contactPersistence.findBy("company_id", companies
                         .get(0).getId());
 
             }
@@ -170,7 +171,7 @@ ContactListResource {
                 /*
                  * Retrieve List<Contact> from persistence layer
                  */
-                contactsOut = persistenceService.findAll();
+                contactsOut = contactPersistence.findAll();
 
             } else {
 
@@ -192,7 +193,7 @@ ContactListResource {
                 /*
                  * Retrieve List<Contact> from persistence layer
                  */
-                contactsOut = persistenceService.findBy("company_id", companies
+                contactsOut = contactPersistence.findBy("company_id", companies
                         .get(0).getId());
 
             }

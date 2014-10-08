@@ -7,6 +7,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.persistence.ContactPersistence;
 import org.restlet.tutorial.persistence.PersistenceService;
 import org.restlet.tutorial.persistence.entity.Company;
 import org.restlet.tutorial.persistence.entity.Contact;
@@ -19,7 +20,7 @@ import org.restlet.tutorial.utils.ContactUtils;
 public class ContactServerResource extends ServerResource implements
         ContactResource {
 
-    private PersistenceService<Contact> persistenceService;
+    private ContactPersistence contactPersistence;
 
     private Contact contact;
 
@@ -46,14 +47,14 @@ public class ContactServerResource extends ServerResource implements
          * Initialize a persistence class which will be called to do operations
          * on the database.
          */
-        persistenceService = PersistenceService.getContactPersistence();
+        contactPersistence = PersistenceService.getContactPersistence();
 
         /*
          * Retrieve Contact from Persistence layer
          */
         try {
 
-            List<Contact> contacts = persistenceService.findBy("email", email);
+            List<Contact> contacts = contactPersistence.findBy("email", email);
 
             /*
              * Check if retrieved contact is not null, which would mean the
@@ -185,7 +186,7 @@ public class ContactServerResource extends ServerResource implements
             /*
              * Delete contact in DB : return true if deleted
              */
-            Boolean isDeleted = persistenceService.delete(contact.getId());
+            Boolean isDeleted = contactPersistence.delete(contact.getId());
 
             /*
              * Check if contact is deleted : if not it means that the id must be
@@ -258,7 +259,7 @@ public class ContactServerResource extends ServerResource implements
              * Find contacts related to given email. If contact found : update.
              * Else create.
              */
-            List<Contact> contacts = persistenceService.findBy("email", email);
+            List<Contact> contacts = contactPersistence.findBy("email", email);
             Contact contactOut;
             if (contacts.isEmpty()) {
 
@@ -267,7 +268,7 @@ public class ContactServerResource extends ServerResource implements
                 /*
                  * Add contact in DB and retrieve the new one.
                  */
-                contactOut = persistenceService.add(contactIn);
+                contactOut = contactPersistence.add(contactIn);
 
                 getResponse().setStatus(Status.SUCCESS_CREATED);
 
@@ -278,7 +279,7 @@ public class ContactServerResource extends ServerResource implements
                 /*
                  * Update contact in DB and retrieve the new one.
                  */
-                contactOut = persistenceService.update(contactIn,
+                contactOut = contactPersistence.update(contactIn,
                         contacts.get(0).getId());
 
                 /*

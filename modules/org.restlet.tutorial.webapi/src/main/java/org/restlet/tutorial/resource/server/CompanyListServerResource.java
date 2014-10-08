@@ -8,6 +8,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.persistence.CompanyPersistence;
 import org.restlet.tutorial.persistence.PersistenceService;
 import org.restlet.tutorial.persistence.entity.Company;
 import org.restlet.tutorial.representation.CompanyListRepresentation;
@@ -18,7 +19,7 @@ import org.restlet.tutorial.utils.CompanyUtils;
 public class CompanyListServerResource extends ServerResource implements
         CompanyListResource {
 
-    private PersistenceService<Company> persistenceService;
+    private CompanyPersistence companyPersistence;
 
     /*
      * Method called at the creation of the Resource (ie : each time the
@@ -34,7 +35,7 @@ public class CompanyListServerResource extends ServerResource implements
          * Initialize a persistence class which will be called to do operations
          * on the database.
          */
-        persistenceService = PersistenceService.getCompanyPersistence();
+        companyPersistence = PersistenceService.getCompanyPersistence();
 
         getLogger().finer(
                 "Method doInit() of CompanyListServerResource finished.");
@@ -60,7 +61,7 @@ public class CompanyListServerResource extends ServerResource implements
             /*
              * Retrieve List<Company> from persistence layer
              */
-            List<Company> companies = persistenceService.findAll();
+            List<Company> companies = companyPersistence.findAll();
 
             /*
              * Create companyListRepresentaion
@@ -132,7 +133,7 @@ CompanyRepresentation companyReprIn) {
             /*
              * Add new company in DB and retrieve created company
              */
-            Company companyOut = persistenceService.add(companyIn);
+            Company companyOut = companyPersistence.add(companyIn);
 
             /*
              * Convert Company to CompanyRepresentation
