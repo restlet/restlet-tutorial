@@ -2,12 +2,12 @@
 
 ## Prerequisites
 
-* MySQL installed on your machine : [MySQL installation link](http://dev.mysql.com/downloads/)
 * Maven installed on your machine : [Maven documentation link](http://maven.apache.org/index.html)
 
 > The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi)
 
-> This example uses [Restlet Framework 2.2.1](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition).
+> This example uses [Restlet Framework 2.2.1](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition)
+and [H2 Database](www.h2database.com)
 
 > Restlet framework user guide is available [here](http://restlet.com/learn/guide/2.3/).
 > You can also clone this repository and go to ```/modules/org.restlet.tutorial.webapi/``` folder.
@@ -22,11 +22,6 @@ To install maven :
 * For eclipse users : run ```mvn eclipse:eclipse```
 
 > For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
-
-### Create a MySQL database
-
-A script was created : ```scripts/mysql.script```. You just have to execute it in your MySQL console (you must have admin rights).
-If you want to change settings to access you database, you can do it in ```org.restlet.tutorial.persistence.PersistenceService.java```.
 
 ### Run this application
 
@@ -50,6 +45,10 @@ It uses HTTP Basic authentication.
 > Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
 
 > You can try this application easily with a REST client like [POSTMAN](http://www.getpostman.com/).
+
+## Database access
+
+To visualize the database, open the H2 console in you browser (http://localhost:8082) and connect to the database with the JDBC URL `jdbc:h2:mem:restletWebApi;IFEXISTS=TRUE`.
 
 ## Description
 
