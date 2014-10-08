@@ -1,6 +1,7 @@
 package org.restlet.tutorial;
 
 import org.restlet.Component;
+import org.restlet.Context;
 import org.restlet.data.Protocol;
 import org.restlet.tutorial.persistence.PersistenceService;
 
@@ -29,5 +30,8 @@ public class WebApiHost {
         c.getDefaultHost().attach("/v1", new WebApiTutorial());
 
         c.start();
+
+        Context.getCurrentLogger().info("Restlet application started. URL: http://localhost:9000/v1" );
+
     }
 }
