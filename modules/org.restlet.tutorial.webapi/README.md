@@ -48,7 +48,7 @@ It uses HTTP Basic authentication.
 
 ## Database access
 
-To visualize the database, open the H2 console in you browser (http://localhost:8082) and connect to the database with the JDBC URL `jdbc:h2:mem:restletWebApi;IFEXISTS=TRUE`.
+To visualize the database, open the H2 console in you browser (`http://localhost:8082`) and connect to the database with the JDBC URL `jdbc:h2:mem:restletWebApi;IFEXISTS=TRUE`.
 
 ## Description
 
