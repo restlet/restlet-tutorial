@@ -1,11 +1,8 @@
-create database restletWebApi;
-use restletWebApi;
-
 DROP table IF EXISTS Contact;
 DROP table IF EXISTS Company;
 
 CREATE TABLE Company (
-    id INT NOT NULL AUTO_INCREMENT, 
+    id INT NOT NULL,
     duns VARCHAR(9) UNIQUE,
     name VARCHAR(255),
     address VARCHAR(255), 
@@ -18,7 +15,7 @@ CREATE TABLE Company (
 );
 
 CREATE TABLE Contact (
-    id VARCHAR(255), 
+    id VARCHAR(255) NOT NULL,
     email VARCHAR (255) NOT NULL UNIQUE,
     age INT,
     name VARCHAR (255),
@@ -28,6 +25,7 @@ CREATE TABLE Contact (
     FOREIGN KEY (company_id) REFERENCES Company(id)
 ); 
 
-CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
-GRANT ALL PRIVILEGES ON *.* TO 'test'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
+INSERT INTO Company (id, duns, name, website) values
+  (1, '7386', 'Restlet', 'restlet.com'),
+  (2, '9473', 'Google', 'google.com')
+;

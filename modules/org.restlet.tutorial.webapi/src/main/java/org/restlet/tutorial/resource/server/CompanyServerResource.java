@@ -7,6 +7,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.persistence.CompanyPersistence;
 import org.restlet.tutorial.persistence.PersistenceService;
 import org.restlet.tutorial.persistence.entity.Company;
 import org.restlet.tutorial.representation.CompanyRepresentation;
@@ -16,7 +17,7 @@ import org.restlet.tutorial.utils.CompanyUtils;
 public class CompanyServerResource extends ServerResource implements
         CompanyResource {
 
-    private PersistenceService<Company> persistenceService;
+    private CompanyPersistence companyPersistence;
 
     private Company company;
 
@@ -35,7 +36,7 @@ public class CompanyServerResource extends ServerResource implements
          * Initialize a persistence class which will be called to do operations
          * on the database.
          */
-        persistenceService = PersistenceService.getCompanyPersistence();
+        companyPersistence = PersistenceService.getCompanyPersistence();
 
         /*
          * Get company related to given id
@@ -48,7 +49,7 @@ public class CompanyServerResource extends ServerResource implements
 
         try {
 
-            List<Company> companies = persistenceService.findBy("id", id);
+            List<Company> companies = companyPersistence.findBy("id", id);
 
             /*
              * Check if retrieved company is not null. If it is null it means
@@ -116,7 +117,7 @@ public class CompanyServerResource extends ServerResource implements
             /*
              * Delete company in DB : return true if deleted
              */
-            Boolean isDeleted = persistenceService.delete(company.getId());
+            Boolean isDeleted = companyPersistence.delete(company.getId());
 
             /*
              * Check if contact is deleted : if not it means that the id must be
@@ -206,7 +207,7 @@ public class CompanyServerResource extends ServerResource implements
                 /*
                  * Update company in DB and retrieve the new one.
                  */
-                companyOut = persistenceService.update(companyIn,
+                companyOut = companyPersistence.update(companyIn,
                         company.getId());
 
                 /*

@@ -32,7 +32,7 @@ public class CompanyPersistence extends PersistenceService<Company> {
     }
 
     private CompanyPersistence() {
-    };
+    }
 
     @Override
     public List<Company> findAll() throws SQLException {

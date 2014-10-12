@@ -1,41 +1,57 @@
 package org.restlet.tutorial.persistence;
 
+import org.h2.tools.Console;
+import org.h2.tools.RunScript;
+import org.h2.tools.Server;
+import org.restlet.Context;
+import org.restlet.tutorial.persistence.entity.Company;
+import org.restlet.tutorial.persistence.entity.Contact;
+
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-import org.restlet.Context;
-import org.restlet.tutorial.persistence.entity.Company;
-import org.restlet.tutorial.persistence.entity.Contact;
-
 public abstract class PersistenceService<T> {
 
     /*
      * Initialize database settings.
      * 
-     * Example made with mySQL but you are free to use your favorite DBMS.
+     * Example made with H2 database but you are free to use your favorite DBMS.
      */
 
-    public static final String DRIVER = com.mysql.jdbc.Driver.class.getName();
+    public static final String URL = "jdbc:h2:mem:restletWebApi";
 
-    public static final String URL = "jdbc:mysql://localhost:3306/restletWebApi";
+    public static final String USER = "sa";
 
-    public static final String USER = "test";
-
-    public static final String PASSWORD = "test";
+    public static final String PASSWORD = "";
 
     public static void initialize() {
-        /*
-         * Ensure DB configuration is correct
-         */
+        // Ensure DB configuration is correct
         try {
-            Class.forName(com.mysql.jdbc.Driver.class.getName());
+            Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
-            Context.getCurrentLogger().severe(
-                    "JDBC Driver not found : application aborted");
-            System.exit(1);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Connection conn = DriverManager.getConnection(URL + ";DB_CLOSE_DELAY=-1", USER, PASSWORD);
+
+            // Execute initialization script
+            RunScript.execute(conn, new InputStreamReader(
+                    ClassLoader.getSystemClassLoader().getResourceAsStream("db-schema.sql"))
+            );
+
+            // now start the H2 Console
+            Console.main("-web");
+
+            Context.getCurrentLogger().info(
+                    "H2 Console available at http://localhost:8082. Use URL JDBC string: " + URL + ";IFEXISTS=TRUE");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,13 +101,13 @@ public abstract class PersistenceService<T> {
      * Factories
      */
 
-    public static PersistenceService<Contact> getContactPersistence() {
+    public static ContactPersistence getContactPersistence() {
         Context.getCurrentLogger().finer(
                 "Method getContactPersistence() of PersistenceService called.");
         return ContactPersistence.getContactPersistence();
     }
 
-    public static PersistenceService<Company> getCompanyPersistence() {
+    public static CompanyPersistence getCompanyPersistence() {
         Context.getCurrentLogger().finer(
                 "Method getCompanyPersistence() of PersistenceService called.");
         return CompanyPersistence.getCompanyPersistence();
