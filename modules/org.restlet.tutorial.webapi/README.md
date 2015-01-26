@@ -1,4 +1,4 @@
-# Restlet Framework Web API sample implementation
+# Restlet Framework Web API Sample Implementation
 
 ## Prerequisites
 
