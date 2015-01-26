@@ -22,25 +22,21 @@
  * Restlet is a registered trademark of Restlet S.A.S.
  */
 
-package org.restlet.tutorial.resource;
+package org.restlet.tutorial.core.exception;
 
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.Put;
-import org.restlet.tutorial.core.exception.BadEntityException;
-import org.restlet.tutorial.core.exception.NotFoundException;
-import org.restlet.tutorial.representation.CompanyRepresentation;
+import org.restlet.resource.Status;
 
-public interface CompanyResource {
+/**
+ * Sent back to client in order to customize the 404 status response
+ * ("Not found") thanks to the {@link Status} annotation. The representation
+ * written out contains the status (cf constructor), and the exception message.
+ * 
+ * @author Manuel Boillod
+ */
+@Status(404)
+public class NotFoundException extends BusinessException {
 
-    @Get
-    CompanyRepresentation getCompany() throws NotFoundException;
-
-    @Delete
-    void remove() throws NotFoundException;
-
-    @Put
-    CompanyRepresentation store(CompanyRepresentation company)
-            throws NotFoundException, BadEntityException;
-
+    public NotFoundException(String message) {
+        super(404, message);
+    }
 }

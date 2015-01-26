@@ -22,25 +22,21 @@
  * Restlet is a registered trademark of Restlet S.A.S.
  */
 
-package org.restlet.tutorial.resource;
+package org.restlet.tutorial.core.exception;
 
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.Put;
-import org.restlet.tutorial.core.exception.BadEntityException;
-import org.restlet.tutorial.core.exception.NotFoundException;
-import org.restlet.tutorial.representation.CompanyRepresentation;
+import org.restlet.resource.Status;
 
-public interface CompanyResource {
+/**
+ * Sent back to client when an incoming entity is invalid. It defines a
+ * "message" property and leads to set the HTTP response status to 400
+ * ("bad request") thanks to the {@link Status} annotation.
+ * 
+ * @author Manuel Boillod
+ */
+@Status(400)
+public class BadParameterException extends BusinessException {
 
-    @Get
-    CompanyRepresentation getCompany() throws NotFoundException;
-
-    @Delete
-    void remove() throws NotFoundException;
-
-    @Put
-    CompanyRepresentation store(CompanyRepresentation company)
-            throws NotFoundException, BadEntityException;
-
+    public BadParameterException(String message) {
+        super(400, message);
+    }
 }

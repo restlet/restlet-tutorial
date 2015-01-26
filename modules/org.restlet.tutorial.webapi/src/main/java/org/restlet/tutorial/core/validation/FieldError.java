@@ -22,25 +22,38 @@
  * Restlet is a registered trademark of Restlet S.A.S.
  */
 
-package org.restlet.tutorial.resource;
+package org.restlet.tutorial.core.validation;
 
-import org.restlet.resource.Delete;
-import org.restlet.resource.Get;
-import org.restlet.resource.Put;
-import org.restlet.tutorial.core.exception.BadEntityException;
-import org.restlet.tutorial.core.exception.NotFoundException;
-import org.restlet.tutorial.representation.CompanyRepresentation;
+/**
+ * @author Manuel Boillod
+ */
+public class FieldError {
 
-public interface CompanyResource {
+    private String field;
 
-    @Get
-    CompanyRepresentation getCompany() throws NotFoundException;
+    private String message;
 
-    @Delete
-    void remove() throws NotFoundException;
+    public FieldError() {
+    }
 
-    @Put
-    CompanyRepresentation store(CompanyRepresentation company)
-            throws NotFoundException, BadEntityException;
+    public FieldError(String field, String message) {
+        this.field = field;
+        this.message = message;
+    }
 
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

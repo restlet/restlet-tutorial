@@ -1,3 +1,27 @@
+/**
+ * Copyright 2005-2015 Restlet
+ * 
+ * The contents of this file are subject to the terms of one of the following
+ * open source licenses: Apache 2.0 or or EPL 1.0 (the "Licenses"). You can
+ * select the license that you prefer but you may not use this file except in
+ * compliance with one of these Licenses.
+ * 
+ * You can obtain a copy of the Apache 2.0 license at
+ * http://www.opensource.org/licenses/apache-2.0
+ * 
+ * You can obtain a copy of the EPL 1.0 license at
+ * http://www.opensource.org/licenses/eclipse-1.0
+ * 
+ * See the Licenses for the specific language governing permissions and
+ * limitations under the Licenses.
+ * 
+ * Alternatively, you can obtain a royalty free commercial license with less
+ * limitations, transferable or non-transferable, directly at
+ * http://restlet.com/products/restlet-framework
+ * 
+ * Restlet is a registered trademark of Restlet S.A.S.
+ */
+
 package org.restlet.tutorial.persistence;
 
 import java.sql.Connection;
@@ -12,23 +36,16 @@ import org.restlet.resource.ResourceException;
 import org.restlet.tutorial.persistence.entity.Contact;
 
 /**
- * Makes operations on the table Contact. (CRUD)
+ * Handles operations on the table Company.
  * 
  * @author Guillaume Blondeau
- * 
  */
 public class ContactPersistence extends PersistenceService<Contact> {
 
-    /*
-     * Singleton pattern
-     */
-
-    private static ContactPersistence contactPersistence = null;
+    // Singleton pattern
+    private static ContactPersistence contactPersistence = new ContactPersistence();
 
     public static synchronized ContactPersistence getContactPersistence() {
-        if (contactPersistence == null) {
-            contactPersistence = new ContactPersistence();
-        }
         return contactPersistence;
     }
 
@@ -36,119 +53,18 @@ public class ContactPersistence extends PersistenceService<Contact> {
     };
 
     @Override
-    public List<Contact> findAll() throws SQLException {
-
-        Context.getCurrentLogger().finer(
-                "Method findAll() of ContactPersistence called.");
-
-        List<Contact> contacts = new ArrayList<Contact>();
-        Connection connection = null;
-        try{
-            connection = createConnection();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("Select * FROM Contact");
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                Contact contact = new Contact();
-                contacts.add(contact);
-                contact.setCompanyId(rs.getString("company_id"));
-                contact.setEmail(rs.getString("email"));
-                contact.setFirstName(rs.getString("firstname"));
-                contact.setId(rs.getString("id"));
-                contact.setName(rs.getString("name"));
-                contact.setAge(rs.getInt("age"));
-            }
-            return contacts;
-        } finally {
-
-            releaseConnection(connection);
-            Context.getCurrentLogger().finer(
-                    "Method findAll() of ContactPersistence finished.");
-        }
-    }
-
-    @Override
-    public List<Contact> findBy(String fieldName, String fieldValue)
-            throws SQLException {
-
-        Context.getCurrentLogger().finer(
-                "Method findBy() of ContactPersistence called.");
-
-        List<Contact> contacts = new ArrayList<Contact>();
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("Select * FROM Contact where "
-                            + fieldName + "=?");
-            preparedStatement.setString(1, fieldValue);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                Contact contact = new Contact();
-                contacts.add(contact);
-                contact.setCompanyId(rs.getString("company_id"));
-                contact.setEmail(rs.getString("email"));
-                contact.setFirstName(rs.getString("firstname"));
-                contact.setId(rs.getString("id"));
-                contact.setName(rs.getString("name"));
-                contact.setAge(rs.getInt("age"));
-            }
-            return contacts;
-        } finally {
-
-            releaseConnection(connection);
-            Context.getCurrentLogger().finer(
-                    "Method findAll() of ContactPersistence finished.");
-        }
-    }
-
-    @Override
-    public Contact findById(String id) throws SQLException {
-
-        Context.getCurrentLogger().finer(
-                "Method findById() of ContactPersistence called.");
-
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("Select * FROM Contact where id=?");
-            preparedStatement.setString(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()){
-                Contact contact = new Contact();
-                contact.setCompanyId(rs.getString("company_id"));
-                contact.setEmail(rs.getString("email"));
-                contact.setFirstName(rs.getString("firstname"));
-                contact.setId(rs.getString("id"));
-                contact.setName(rs.getString("name"));
-                contact.setAge(rs.getInt("age"));
-                return contact;
-            } else {
-                return null;
-            }
-        } finally {
-
-            releaseConnection(connection);
-            Context.getCurrentLogger().finer(
-                    "Method findById() of ContactPersistence finished.");
-        }
-    }
-
-    @Override
-    public Contact add(Contact toAdd) throws SQLException,
-            ResourceException {
+    public Contact add(Contact toAdd) throws SQLException, ResourceException {
 
         Context.getCurrentLogger().finer(
                 "Method add() of ContactPersistence called.");
 
         Connection connection = null;
         try {
-            connection = createConnection();
+            connection = getConnection();
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("Insert into Contact "
-                            + "(id, email, age, name, firstname, company_id) values ("
-                            + "?,?,?,?,?,?);");
+                    .prepareStatement("insert into Contact "
+                            + "(id, email, age, name, firstname, company_id) "
+                            + "values (?,?,?,?,?,?);");
 
             // Auto generated id
             toAdd.setId(generateStringId());
@@ -165,7 +81,146 @@ public class ContactPersistence extends PersistenceService<Contact> {
             return toAdd;
 
         } finally {
+            releaseConnection(connection);
+            Context.getCurrentLogger().finer(
+                    "Method findById() of ContactPersistence finished.");
+        }
+    }
 
+    @Override
+    public Boolean delete(String id) throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method delete() of ContactPersistence called.");
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("delete from Contact where id=?");
+            preparedStatement.setString(1, id);
+
+            Integer result = preparedStatement.executeUpdate();
+            // return false if no row has been updated.
+            return result != 0;
+
+        } finally {
+            releaseConnection(connection);
+            Context.getCurrentLogger().finer(
+                    "Method delete() of ContactPersistence called.");
+        }
+    }
+
+    @Override
+    public List<Contact> findAll() throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method findAll() of ContactPersistence called.");
+
+        List<Contact> contacts = new ArrayList<Contact>();
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("select * from Contact");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Contact contact = new Contact();
+                contacts.add(contact);
+                contact.setCompanyId(rs.getString("company_id"));
+                contact.setEmail(rs.getString("email"));
+                contact.setFirstName(rs.getString("firstname"));
+                contact.setId(rs.getString("id"));
+                contact.setName(rs.getString("name"));
+                contact.setAge(rs.getInt("age"));
+            }
+            return contacts;
+
+        } finally {
+            releaseConnection(connection);
+            Context.getCurrentLogger().finer(
+                    "Method findAll() of ContactPersistence finished.");
+        }
+    }
+
+    public List<Contact> findByEmail(String fieldValue) throws SQLException {
+        return findBy("email", fieldValue);
+    }
+
+    public List<Contact> findByCompany(String fieldValue) throws SQLException {
+        return findBy("company_id", fieldValue);
+    }
+
+    /**
+     * Let this method as private in order to prevent SQL injection, since the
+     * SQL request is obtained by concatenation.
+     * 
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     * @throws SQLException
+     */
+    private List<Contact> findBy(String fieldName, String fieldValue)
+            throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method findBy() of ContactPersistence called.");
+
+        List<Contact> contacts = new ArrayList<Contact>();
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            // take care, may
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("select * from Contact where "
+                            + fieldName + "=?");
+            preparedStatement.setString(1, fieldValue);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Contact contact = new Contact();
+                contacts.add(contact);
+                contact.setCompanyId(rs.getString("company_id"));
+                contact.setEmail(rs.getString("email"));
+                contact.setFirstName(rs.getString("firstname"));
+                contact.setId(rs.getString("id"));
+                contact.setName(rs.getString("name"));
+                contact.setAge(rs.getInt("age"));
+            }
+            return contacts;
+
+        } finally {
+            releaseConnection(connection);
+            Context.getCurrentLogger().finer(
+                    "Method findAll() of ContactPersistence finished.");
+        }
+    }
+
+    @Override
+    public Contact findById(String id) throws SQLException {
+
+        Context.getCurrentLogger().finer(
+                "Method findById() of ContactPersistence called.");
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("Select * FROM Contact where id=?");
+            preparedStatement.setString(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                Contact contact = new Contact();
+                contact.setCompanyId(rs.getString("company_id"));
+                contact.setEmail(rs.getString("email"));
+                contact.setFirstName(rs.getString("firstname"));
+                contact.setId(rs.getString("id"));
+                contact.setName(rs.getString("name"));
+                contact.setAge(rs.getInt("age"));
+                return contact;
+            }
+
+            return null;
+        } finally {
             releaseConnection(connection);
             Context.getCurrentLogger().finer(
                     "Method findById() of ContactPersistence finished.");
@@ -181,7 +236,7 @@ public class ContactPersistence extends PersistenceService<Contact> {
 
         Connection connection = null;
         try {
-            connection = createConnection();
+            connection = getConnection();
             PreparedStatement preparedStatement = connection
                     .prepareStatement("Update Contact SET "
                             + "name=?, email=?, age=?, firstname=?, company_id=? "
@@ -194,42 +249,15 @@ public class ContactPersistence extends PersistenceService<Contact> {
             preparedStatement.setString(6, id);
 
             Integer result = preparedStatement.executeUpdate();
-            if (result == 0) {
-                return null;
-            } else {
+            if (result != 0) {
                 return toUpdate;
             }
-        } finally {
+            return null;
 
+        } finally {
             releaseConnection(connection);
             Context.getCurrentLogger().finer(
                     "Method update() of ContactPersistence finished.");
-        }
-    }
-
-    @Override
-    public Boolean delete(String id) throws SQLException {
-
-        Context.getCurrentLogger().finer(
-                "Method delete() of ContactPersistence called.");
-
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("delete from Contact where id=?");
-            preparedStatement.setString(1, id);
-
-            Integer result = preparedStatement.executeUpdate();
-            if (result == 0) {
-                return false;
-            }
-            return true;
-        } finally {
-
-            releaseConnection(connection);
-            Context.getCurrentLogger().finer(
-                    "Method delete() of ContactPersistence called.");
         }
     }
 

@@ -1,12 +1,38 @@
+/**
+ * Copyright 2005-2015 Restlet
+ * 
+ * The contents of this file are subject to the terms of one of the following
+ * open source licenses: Apache 2.0 or or EPL 1.0 (the "Licenses"). You can
+ * select the license that you prefer but you may not use this file except in
+ * compliance with one of these Licenses.
+ * 
+ * You can obtain a copy of the Apache 2.0 license at
+ * http://www.opensource.org/licenses/apache-2.0
+ * 
+ * You can obtain a copy of the EPL 1.0 license at
+ * http://www.opensource.org/licenses/eclipse-1.0
+ * 
+ * See the Licenses for the specific language governing permissions and
+ * limitations under the Licenses.
+ * 
+ * Alternatively, you can obtain a royalty free commercial license with less
+ * limitations, transferable or non-transferable, directly at
+ * http://restlet.com/products/restlet-framework
+ * 
+ * Restlet is a registered trademark of Restlet S.A.S.
+ */
+
 package org.restlet.tutorial.resource.server;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.logging.Level;
 
-import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.core.exception.BadEntityException;
+import org.restlet.tutorial.core.exception.NotFoundException;
+import org.restlet.tutorial.core.util.ResourceUtils;
 import org.restlet.tutorial.persistence.CompanyPersistence;
 import org.restlet.tutorial.persistence.PersistenceService;
 import org.restlet.tutorial.persistence.entity.Company;
@@ -23,228 +49,143 @@ public class CompanyServerResource extends ServerResource implements
 
     private String id;
 
-    /*
+    /**
      * Method called at the creation of the Resource (ie : each time the
-     * resource is called)
+     * resource is called).
      */
     @Override
-    protected void doInit() throws ResourceException {
+    protected void doInit() {
 
-        getLogger().finer("Method doInit() of CompanyServerResource called.");
-
-        /*
-         * Initialize a persistence class which will be called to do operations
-         * on the database.
-         */
-        companyPersistence = PersistenceService.getCompanyPersistence();
-
-        /*
-         * Get company related to given id
-         */
+        // Get company related to given id
         id = getAttribute("id");
 
-        if (id == null) {
-            return;
-        }
+        getLogger().finer(
+                "Initialization of CompanyServerResource with company id: "
+                        + id);
+
+        // Initialize the persistence layer.
+        companyPersistence = PersistenceService.getCompanyPersistence();
 
         try {
+            company = companyPersistence.findById(id);
 
-            List<Company> companies = companyPersistence.findBy("id", id);
-
-            /*
-             * Check if retrieved company is not null. If it is null it means
-             * that the given email is wrong.
-             */
-            if (companies.isEmpty()) {
-                getLogger().config("Company id does not exist");
+            // Check if retrieved company is not null. If it is null it means
+            // that the given email is wrong.
+            setExisting(company != null);
+            if (!isExisting()) {
+                getLogger().config("Company id does not exist:" + id);
                 setExisting(false);
-            } else {
-                company = companies.get(0);
-                setExisting(true);
             }
 
         } catch (SQLException ex) {
-            getLogger().warning("SQLException " + ex.getMessage());
-            throw new ResourceException(Status.SERVER_ERROR_INTERNAL,
-                    ex.getMessage(), ex);
+            throw new ResourceException(ex);
         }
-
-        getLogger().finer("Method doInit() of CompanyServerResource finished.");
-    }
-
-    public CompanyRepresentation represent() throws ResourceException {
-
-        getLogger()
-                .finer("Method represent() of CompanyServerResource called.");
-
-        /*
-         * Check authorization
-         */
-        if (!isInRole(WebApiTutorial.ROLE_USER)) {
-            getLogger().info("Unauthorized user");
-            throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
-        }
-
-        getLogger().finer("User allowed to call the resource.");
 
         getLogger().finer(
-                "Method represent() of CompanyServerResource finished.");
-        
-        CompanyRepresentation result = CompanyUtils
-                .companyToCompanyRepresentation(company);
-        result.setSelf(WebApiTutorial.ROUTE_COMPANIES + "/" + company.getId());
-
-        return result;
-
+                "Initialization of CompanyServerResource ended with company id: "
+                        + id);
     }
 
-    public void remove() throws ResourceException {
+    public CompanyRepresentation getCompany() {
 
-        getLogger().finer("Method remove() of CompanyServerResource called.");
+        getLogger().finer("Retrieve a company");
 
-        /*
-         * Check authorization
-         */
-        if (!isInRole(WebApiTutorial.ROLE_OWNER)) {
-            getLogger().info("Unauthorized user");
-            throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
-        }
+        // Check authorization
+        ResourceUtils.checkRole(this, WebApiTutorial.ROLE_USER);
+        getLogger().finer("User allowed to retrieve a company.");
 
-        getLogger().finer("User allowed to call the resource.");
+        CompanyRepresentation result = CompanyUtils
+                .toCompanyRepresentation(company);
+        result.setSelf(ResourceUtils.getCompanyUrl(company.getId()));
+
+        getLogger().finer("Company successfully retrieved");
+
+        return result;
+    }
+
+    public void remove() throws NotFoundException {
+
+        getLogger().finer("Removal of company");
+
+        ResourceUtils.checkRole(this, WebApiTutorial.ROLE_USER);
+        getLogger().finer("User allowed to remove a company.");
 
         try {
 
-            /*
-             * Delete company in DB : return true if deleted
-             */
+            // Delete company in DB: return true if deleted
             Boolean isDeleted = companyPersistence.delete(company.getId());
 
-            /*
-             * Check if contact is deleted : if not it means that the id must be
-             * wrong
-             */
-            if (isDeleted == false) {
+            // If contact has not been deleted: if not it means that the id must
+            // be wrong
+            if (!isDeleted) {
                 getLogger().config("Company id does not exist");
-                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+                throw new NotFoundException(
+                        "Company with the following identifier does not exist:"
+                                + company.getId());
             }
-
-            getResponse().setStatus(Status.SUCCESS_NO_CONTENT);
-
-            getLogger().finer(
-                    "Method remove() of CompanyServerResource finished.");
+            getLogger().finer("Company successfully removed.");
 
         } catch (SQLException ex) {
-            if (WebApiTutorial.SQL_STATE_23000_DUPLICATE.equals(ex
-                    .getSQLState())) {
-                getLogger().info("Integrity constraint violation " + ex);
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,
-                        ex.getMessage(), ex);
-            }
-            getLogger().warning("SQLException " + ex.getMessage());
-            throw new ResourceException(Status.SERVER_ERROR_INTERNAL, ex);
+            getLogger().log(Level.WARNING, "Error when removing a company", ex);
+            throw new ResourceException(ex);
         }
 
     }
 
     public CompanyRepresentation store(CompanyRepresentation companyReprIn)
-            throws ResourceException {
+            throws BadEntityException, NotFoundException {
+        getLogger().finer("Update a company.");
 
-        getLogger().finer("Method store() of CompanyServerResource called.");
+        ResourceUtils.checkRole(this, WebApiTutorial.ROLE_OWNER);
+        getLogger().finer("User allowed to update a company.");
 
-        /*
-         * Check authorization
-         */
-        if (!isInRole(WebApiTutorial.ROLE_OWNER)) {
-            getLogger().info("Unauthorized user");
-            throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
-        }
-
-        getLogger().finer("User allowed to call the resource.");
-
-        /*
-         * Check given entity
-         */
-        if (companyReprIn == null) {
-            getLogger().info("Wrong body");
-            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,
-                    "Wrong body");
-        }
-        String isWellFormed = isWellFormed(companyReprIn);
-        if (!isWellFormed.isEmpty()) {
-            getLogger().info("Body : wrong arguments " + isWellFormed);
-            throw new ResourceException(
-                    Status.CLIENT_ERROR_UNPROCESSABLE_ENTITY,
-                    "Wrong arguments : " + isWellFormed);
-        }
-        getLogger().finest("Entity checked");
+        // Check given entity
+        ResourceUtils.notNull(companyReprIn);
+        ResourceUtils.validate(companyReprIn);
+        getLogger().finer("Company checked");
 
         try {
 
-            /*
-             * Convert CompanyRepresentation to Company
-             */
-            Company companyIn = CompanyUtils
-                    .companyRepresentationToCompany(companyReprIn);
+            // Convert CompanyRepresentation to Company
+            Company companyIn = CompanyUtils.toCompany(companyReprIn);
             companyIn.setId(id);
 
             Company companyOut;
 
-            /*
-             * If company does not exist yet : create company. Else, update
-             * company.
-             */
-            if (!isExisting()) {
+            // If company exists, we update it.
+            if (isExisting()) {
+                getLogger().finer("Update company.");
 
-                getLogger().finer("Resource does not exist.");
-
-                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND,
-                        "id does not exist");
-
-            } else {
-
-                getLogger().finest("Update resource.");
-
-                /*
-                 * Update company in DB and retrieve the new one.
-                 */
+                // Update company in DB and retrieve the new one.
                 companyOut = companyPersistence.update(companyIn,
                         company.getId());
 
-                /*
-                 * Check if retrieved company is not null : if it is null it
-                 * means that the id is wrong.
-                 */
+                // Check if retrieved company is not null : if it is null it
+                // means that the id is wrong.
                 if (companyOut == null) {
-                    getLogger().config("Contact id does not exist");
-                    throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+                    getLogger().finer("Company does not exist.");
+                    throw new NotFoundException(
+                            "Company with the following id does not exist: "
+                                    + id);
                 }
-
+            } else {
+                getLogger().finer("Resource does not exist.");
+                throw new NotFoundException(
+                        "Company with the following id does not exist: " + id);
             }
 
-            getLogger().finer(
-                    "Method store() of CompanyServerResource finished.");
-            return CompanyUtils.companyToCompanyRepresentation(companyOut);
+            getLogger().finer("Company successfully updated.");
+            return CompanyUtils.toCompanyRepresentation(companyOut);
 
         } catch (SQLException ex) {
+            getLogger().log(Level.WARNING, "Error when updating a company", ex);
             if (WebApiTutorial.SQL_STATE_23000_DUPLICATE.equals(ex
                     .getSQLState())) {
-                getLogger().info("Integrity constraint violation " + ex);
-                throw new ResourceException(
-                        Status.CLIENT_ERROR_UNPROCESSABLE_ENTITY,
-                        ex.getMessage(), ex);
+                throw new BadEntityException(
+                        "Can't update a company due to integrity constraint violation.");
             }
-            getLogger().warning("SQLException " + ex.getMessage());
-            throw new ResourceException(Status.SERVER_ERROR_INTERNAL,
-                    ex.getMessage(), ex);
+            throw new ResourceException(ex);
         }
-    }
-
-    private String isWellFormed(CompanyRepresentation companyReprIn) {
-        if (companyReprIn.getDuns() != null
-                && companyReprIn.getDuns().length() != 9) {
-            return "Company DUNS should have a size of 9";
-        }
-        return "";
     }
 
 }
