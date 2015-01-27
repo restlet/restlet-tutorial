@@ -100,7 +100,7 @@ A resource `/ping` has been created which does not need authentication.
 
 ```GET 		http://localhost:9000/v1/ping```
 
-![Ping Example](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/ping.png)
+It should return the "Version: 1.0.0 running" text in the HTTP response body.
 
 > For the following examples, Basic Authentication is required
 
