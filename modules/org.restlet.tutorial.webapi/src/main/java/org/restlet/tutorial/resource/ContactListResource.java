@@ -25,11 +25,7 @@
 package org.restlet.tutorial.resource;
 
 import org.restlet.resource.Get;
-import org.restlet.resource.Post;
-import org.restlet.tutorial.core.exception.BadEntityException;
-import org.restlet.tutorial.representation.CompanyRepresentation;
 import org.restlet.tutorial.representation.ContactListRepresentation;
-import org.restlet.tutorial.representation.ContactRepresentation;
 import org.restlet.tutorial.representation.ContactWithCompanyListRepresentation;
 
 public interface ContactListResource {
@@ -39,9 +35,5 @@ public interface ContactListResource {
 
     @Get("?strategy=load")
     public ContactWithCompanyListRepresentation getContactsLoad();
-    
-    @Post
-    public ContactRepresentation add(ContactRepresentation contactReprIn)
-            throws BadEntityException;
 
 }

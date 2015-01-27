@@ -84,7 +84,6 @@ public class ContactServerResource extends ServerResource implements
                 setExisting(true);
             } else {
                 setExisting(false);
-                throw new NotFoundException("No contact with email: " + email);
             }
         } catch (SQLException ex) {
             throw new ResourceException(ex);
@@ -96,7 +95,12 @@ public class ContactServerResource extends ServerResource implements
     }
 
     public ContactRepresentation getContact() {
-        getLogger().finer("Retrieve a contact");
+    	
+    	getLogger().finer("Retrieve a contact");	
+    	
+    	if (contact == null){
+            throw new NotFoundException("No contact with email: " + email);
+    	}
 
         // Check authorization
         ResourceUtils.checkRole(this, WebApiTutorial.ROLE_USER);
@@ -118,6 +122,10 @@ public class ContactServerResource extends ServerResource implements
 
         getLogger().finer("Load a contact");
 
+        if (contact == null){
+            throw new NotFoundException("No contact with email: " + email);
+    	}
+        
         // Check authorization
         ResourceUtils.checkRole(this, WebApiTutorial.ROLE_USER);
         getLogger().finer("User allowed to load a contact.");
@@ -145,6 +153,10 @@ public class ContactServerResource extends ServerResource implements
     public void remove() throws NotFoundException {
 
         getLogger().finer("Remove a contact.");
+        
+    	if (contact == null){
+            throw new NotFoundException("No contact with email: " + email);
+    	}
 
         // Check authorization
         ResourceUtils.checkRole(this, WebApiTutorial.ROLE_OWNER);
