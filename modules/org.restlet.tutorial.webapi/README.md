@@ -9,10 +9,10 @@
 > The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi)
 > You can clone this repository; the source code is located in `/modules/org.restlet.tutorial.webapi/` folder.
 
-> This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition)
+> This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current) (Java SE edition)
 and [H2 Database](www.h2database.com)
 
-> Restlet framework user guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
+> Restlet Framework's User Guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
 
 ## Installation
 
@@ -36,7 +36,7 @@ Two files will be created :
 
 They are both located in `/tmp` folder.
 To simplify the launch of the application, authentication and authorization are done in-memory
-(You should  overwrite that with you own authentication system). Here are the login/password available:
+(You should  overwrite that with your own authentication system). Here are the login/password available:
 
 * admin/admin : to get admin role
 * owner/owner : to get owner role
@@ -79,13 +79,13 @@ Here are some instructions to go further with this project:
 
  * Persistence layer
  	* For each operation a new connection is created.
- 	It would be useful to use a connection pool like [DBCP](http://commons.apache.org/proper/commons-dbcp/).
+ 	It would be useful to use a connection pool like [DBCP](http://commons.apache.org/proper/commons-dbcp/) or the built-in connection pool of your database's JDBC driver if available.
  	* It is possible to totally dissociate the persistence layer from the Server Resources.
- 	It would allow the use of several persitence layers. It would also be possible to use dependency injection.
+ 	It would allow the use of several persistence layers. It would also be possible to use dependency injection.
  * Authentication/Authorization
- 	* It is strongly recommended to store users/roles in a database instead of in-memory.
+ 	* It is strongly recommended to store users/roles in a database or a user directory instead of in-memory.
  	You can create a custom [SecretVerifier](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/SecretVerifier.html)
- 	 and [Enroler](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/Enroler.html).
+ 	 and [Enroler](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/Enroler.html) for this purpose.
  	* It is possible to handle autorizations globally in a filter instead of at the beginning of each class.
  	In fact, in this example, there is a repeating schema: the "user" role is required for GET methods,
  	the "owner" role for to the others.
