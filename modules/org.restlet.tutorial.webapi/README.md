@@ -43,7 +43,7 @@ To simplify the launch of the application, authentication and authorization are 
 
 It uses HTTP Basic authentication. Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
 
-You can try this application easily with a REST client like [POSTMAN](http://www.getpostman.com/).
+You can interact with this application easily using a REST client like [POSTMAN](http://www.getpostman.com/).
 
 ## Database access
 
@@ -51,7 +51,7 @@ To visualize the database, open the H2 console in you browser (`http://localhost
 
 ## Description
 
-This Web API contains 2 main resources :
+This Web API contains 2 main resources:
 * Company : identified by an auto-generated id.
 * Contact : identified by its email. A contact can be part of a company and get a reference to it.
 
@@ -97,7 +97,7 @@ A resource `/ping` has been created which does not need authentication.
 
 It should return the ```Version: 1.0.0 running``` text in the HTTP response body.
 
-For the following examples, Basic Authentication is required.
+For the following examples, Basic Authentication is required. Also, you should indicate the media type of the JSON document sent using a ```Content-Type: application/json``` HTTP header.
 
 ### Create a company
 
@@ -116,15 +116,13 @@ For the following examples, Basic Authentication is required.
 }
 ```
 
-The returned status is : `201 Created`. Note that the location of the created company is written is the "Location" HTTP header.
+The returned status is : `201 Created`. Note that the location of the created company is written is the ```Location``` HTTP header.
 
 ### Retrieve all created companies
 
  ```GET		http://localhost:9000/v1/companies/```
 
-> The trailing slash is optional : both `http://localhost:9000/v1/companies/` and `http://localhost:9000/v1/companies` will work.
-
-It should retrieve :
+The trailing slash is optional : both `http://localhost:9000/v1/companies/` and `http://localhost:9000/v1/companies` will work. It should retrieve :
 
  ```json
 {
