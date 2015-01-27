@@ -116,18 +116,21 @@ public class WebApiTutorial extends Application {
 
 		// Create in-memory users and roles.
 		MemoryRealm realm = new MemoryRealm();
+
 		User owner = new User("owner", "owner");
 		realm.getUsers().add(owner);
-		realm.map(owner, Role.get(this, ROLE_OWNER));
-		realm.map(owner, Role.get(this, ROLE_USER));
+		realm.map(owner, getRole(ROLE_OWNER));
+		realm.map(owner, getRole(ROLE_USER));
+
 		User admin = new User("admin", "admin");
 		realm.getUsers().add(admin);
-		realm.map(admin, Role.get(this, ROLE_ADMIN));
-		realm.map(admin, Role.get(this, ROLE_OWNER));
-		realm.map(admin, Role.get(this, ROLE_USER));
+		realm.map(admin, getRole(ROLE_ADMIN));
+		realm.map(admin, getRole(ROLE_OWNER));
+		realm.map(admin, getRole(ROLE_USER));
+
 		User user = new User("user", "user");
 		realm.getUsers().add(user);
-		realm.map(user, Role.get(this, ROLE_USER));
+		realm.map(user, getRole(ROLE_USER));
 
 		// - Verifier : checks authentication
 		// - Enroler : to check authorization (roles)
@@ -153,10 +156,8 @@ public class WebApiTutorial extends Application {
 		router.attach("/companies", CompanyListServerResource.class);
 		router.attach("/companies/", CompanyListServerResource.class);
 		router.attach("/companies/{id}", CompanyServerResource.class);
-		router.attach("/companies/{id}/contacts",
-				ContactListServerResource.class);
-		router.attach("/companies/{id}/contacts/",
-				ContactListServerResource.class);
+		router.attach("/companies/{id}/contacts", ContactListServerResource.class);
+		router.attach("/companies/{id}/contacts/", ContactListServerResource.class);
 
 		router.attach("/contacts", ContactListServerResource.class);
 		router.attach("/contacts/", ContactListServerResource.class);
