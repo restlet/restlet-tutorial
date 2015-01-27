@@ -110,24 +110,20 @@ A resource `/ping` has been created which does not need authentication.
 
  ```json
 {
-  	"name" : "Restlet",
+  	"name" : "GitHub",
   	"duns" : "123456789",
-  	"address" : "2 API road",
-  	"zipCode" : "44300",
+  	"address" : "88 Colin P Kelly Jr St",
+  	"zipCode" : "94107",
   	"creationDate" : "2014-01-01",
-  	"website" : "http://restlet.com",
-  	"city" : "Nantes",
+  	"website" : "github.com",
+  	"city" : "San Francisco",
   	"phoneNumber" : "+1 555 555 555"
 }
 ```
 
-![POST Companies](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/POSTCompanies.png)
-
 > The returned status is : `201 Created`.
 
-The location of the created company is written is the "location" header.
-
- ![POST Companies headers](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/POSTCompaniesHeaders.png)
+NOTE: the location of the created company is written is the "Location" HTTP header.
 
 ### Retrieve all created companies
 
@@ -139,27 +135,36 @@ The location of the created company is written is the "location" header.
 
  ```json
 {
-	"list" :
-		[
-			{
-				"duns":"123456789",
-				"address":"2 API road",
-				"zipCode":"44300",
-				"creationDate":"2014-01-01",
-				"website":"http://restlet.com",
-				"phoneNumber":"+1 555 555 555",
-				"city":"Nantes",
-				"name":"Restlet",
-				"self":"/companies/1"
-			}
-		]
+	"list": [
+		{
+			"duns": "738673861",
+			"website": "restlet.com",
+			"name": "Restlet",
+			"self": "/companies/1"
+		},
+		{
+			"duns": "947394731",
+			"website": "google.com",
+			"name": "Google",
+			"self": "/companies/2"
+		},
+		{
+			"duns": "123456789",
+			"address": "88 Colin P Kelly Jr St",
+			"zipCode": "94107",
+			"creationDate": "2013-12-31",
+			"website": "github.com",
+			"phoneNumber": "+1 555 555 555",
+			"city": "San Francisco",
+			"name": "GitHub",
+			"self": "/companies/3"
+		}
+	]
 }
 ```
 
-![GET Companies](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETCompanies.png)
-
-> The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/1`.
-> Try `GET	http://localhost:9000/v1/companies/1` !
+> The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/3`.
+> Try `GET	http://localhost:9000/v1/companies/3` !
 
 ### Create a contact related to the created company
 
@@ -191,11 +196,9 @@ You should get back:
 }
  ```
 
- ![PUT Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/PUTContacts.png)
-
 > The returned status is : `201 Created`.
 
-> The field company is a reference to the location of the company, with 1 the id of the company.
+> The property company is a reference to the location of the company, with 1 the id of the company.
  	ie : /companies/1 refers to http://localhost:9000/v1/companies/1
 
 ### Retrieve the list of created contacts
@@ -222,9 +225,7 @@ It should retrieve :
 }
 ```
 
-  ![GET Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETContacts.png)
-
-> The field company is a reference to the location of the company
+> The property company is a reference to the location of the company
 
 To display the company information, add the following query parameter : ```?strategy=load```
 
@@ -258,8 +259,6 @@ It should retrieve :
 }
 ```
 
-  ![GET Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETContactsLoad.png)
-
 ### Modify an existing contact
 
 ```PUT		http://localhost:9000/v1/contacts/gblondeau@restlet.com```
@@ -285,7 +284,4 @@ It should retrieve:
 }
 ```
 
-  ![PUT Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/PUTContacts2.png)
-
 > This time a ```200 OK ``` is returned because it is not a creation but an update.
-
