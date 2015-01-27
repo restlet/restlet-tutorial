@@ -6,13 +6,12 @@
 
 * Git installed on your machine
 
-> The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi)
-> You can clone this repository; the source code is located in `/modules/org.restlet.tutorial.webapi/` folder.
+The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi). You can clone this repository; the source code is located in `/modules/org.restlet.tutorial.webapi/` folder.
 
-> This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current) (Java SE edition)
-and [H2 Database](www.h2database.com)
+This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current) (Java SE edition)
+and [H2 Database](www.h2database.com).
 
-> Restlet Framework's User Guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
+Restlet Framework's User Guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
 
 ## Installation
 
@@ -23,7 +22,7 @@ To install the Maven project:
 * Execute `mvn clean install`
 * For eclipse users : run `mvn eclipse:eclipse`
 
-> For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
+For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
 
 ### Run this application
 
@@ -42,11 +41,9 @@ To simplify the launch of the application, authentication and authorization are 
 * owner/owner : to get owner role
 * user/user : to get user role
 
-It uses HTTP Basic authentication.
+It uses HTTP Basic authentication. Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
 
-> Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
-
-> You can try this application easily with a REST client like [POSTMAN](http://www.getpostman.com/).
+You can try this application easily with a REST client like [POSTMAN](http://www.getpostman.com/).
 
 ## Database access
 
@@ -55,7 +52,6 @@ To visualize the database, open the H2 console in you browser (`http://localhost
 ## Description
 
 This Web API contains 2 main resources :
-
 * Company : identified by an auto-generated id.
 * Contact : identified by its email. A contact can be part of a company and get a reference to it.
 
@@ -63,7 +59,7 @@ This is a diagram of the API :
 
 ![Diagram](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/RFWebAPIReferenceImplementation.png)
 
-> A Web API definition can be generated with [APISpark extension (RF 2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark).
+A Web API definition can be generated with [APISpark extension (V2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark).
 
 ## Implementation choices
 
@@ -76,7 +72,6 @@ This is a diagram of the API :
 ## Next steps
 
 Here are some instructions to go further with this project:
-
  * Persistence layer
  	* For each operation a new connection is created.
  	It would be useful to use a connection pool like [DBCP](http://commons.apache.org/proper/commons-dbcp/) or the built-in connection pool of your database's JDBC driver if available.
@@ -92,7 +87,7 @@ Here are some instructions to go further with this project:
 
 ## Usage
 
-> These examples are made using the JSON format but you can use XML or YAML if you want.
+These examples are made using the JSON format but you can use XML or YAML if you want.
 
 ### Ping resource
 
@@ -102,7 +97,7 @@ A resource `/ping` has been created which does not need authentication.
 
 It should return the ```Version: 1.0.0 running``` text in the HTTP response body.
 
-> For the following examples, Basic Authentication is required
+For the following examples, Basic Authentication is required.
 
 ### Create a company
 
@@ -121,9 +116,7 @@ It should return the ```Version: 1.0.0 running``` text in the HTTP response body
 }
 ```
 
-> The returned status is : `201 Created`.
-
-NOTE: the location of the created company is written is the "Location" HTTP header.
+The returned status is : `201 Created`. Note that the location of the created company is written is the "Location" HTTP header.
 
 ### Retrieve all created companies
 
@@ -131,7 +124,7 @@ NOTE: the location of the created company is written is the "Location" HTTP head
 
 > The trailing slash is optional : both `http://localhost:9000/v1/companies/` and `http://localhost:9000/v1/companies` will work.
 
- It should retrieve :
+It should retrieve :
 
  ```json
 {
@@ -163,16 +156,15 @@ NOTE: the location of the created company is written is the "Location" HTTP head
 }
 ```
 
-> The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/3`.
-> Try `GET	http://localhost:9000/v1/companies/3` !
+The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/3`. Try `GET	http://localhost:9000/v1/companies/3`!
 
 ### Create a contact related to the created company
 
  ```PUT	http://localhost:9000/v1/contacts/{email}```
 
-  with `{email}` representing the email of the contact you want to insert.
+with `{email}` representing the email of the contact you want to insert.
 
- For this example, it is:
+For this example, it is:
  ``` PUT	http://localhost:9000/v1/contacts/gblondeau@restlet.com```
 
  ```json
@@ -196,18 +188,15 @@ You should get back:
 }
  ```
 
-> The returned status is : `201 Created`.
+The returned status is : `201 Created`.
 
-> The property company is a reference to the location of the company, with 1 the id of the company.
- 	ie : /companies/1 refers to http://localhost:9000/v1/companies/1
+The property company is a reference to the location of the company, with 1 the id of the company. ie : /companies/1 refers to http://localhost:9000/v1/companies/1
 
 ### Retrieve the list of created contacts
 
 ```GET		http://localhost:9000/v1/contacts```
 
-> The trailing slash is optional : both ```http://localhost:9000/v1/contacts/``` and ```http://localhost:9000/v1/contacts``` will work.
-
-It should retrieve :
+The trailing slash is optional : both ```http://localhost:9000/v1/contacts/``` and ```http://localhost:9000/v1/contacts``` will work. It should retrieve :
 
 ```json
 {
@@ -225,7 +214,7 @@ It should retrieve :
 }
 ```
 
-> The property company is a reference to the location of the company
+The property company is a reference to the location of the company.
 
 To display the company information, add the following query parameter : ```?strategy=load```
 
@@ -284,4 +273,4 @@ It should retrieve:
 }
 ```
 
-> This time a ```200 OK ``` is returned because it is not a creation but an update.
+This time a ```200 OK ``` is returned because it is not a creation but an update.
