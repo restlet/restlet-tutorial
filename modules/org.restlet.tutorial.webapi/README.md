@@ -6,13 +6,12 @@
 
 * Git installed on your machine
 
-> The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi)
-> You can clone this repository; the source code is located in `/modules/org.restlet.tutorial.webapi/` folder.
+The implementation is located [here](https://github.com/restlet/restlet-tutorial/tree/master/modules/org.restlet.tutorial.webapi). You can clone this repository; the source code is located in `/modules/org.restlet.tutorial.webapi/` folder.
 
-> This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current#release=stable&edition=jse&distribution=zip) (Java SE edition)
-and [H2 Database](www.h2database.com)
+This example uses [Restlet Framework 2.3.0](http://restlet.com/download/current) (Java SE edition)
+and [H2 Database](www.h2database.com).
 
-> Restlet framework user guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
+Restlet Framework's User Guide is available [here](http://restlet.com/technical-resources/restlet-framework/guide/2.3/).
 
 ## Installation
 
@@ -23,7 +22,7 @@ To install the Maven project:
 * Execute `mvn clean install`
 * For eclipse users : run `mvn eclipse:eclipse`
 
-> For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
+For further instruction about running a Maven project : [Building a project with Maven](http://maven.apache.org/run-maven/index.html)
 
 ### Run this application
 
@@ -36,17 +35,15 @@ Two files will be created :
 
 They are both located in `/tmp` folder.
 To simplify the launch of the application, authentication and authorization are done in-memory
-(You should  overwrite that with you own authentication system). Here are the login/password available:
+(You should  overwrite that with your own authentication system). Here are the login/password available:
 
 * admin/admin : to get admin role
 * owner/owner : to get owner role
 * user/user : to get user role
 
-It uses HTTP Basic authentication.
+It uses HTTP Basic authentication. Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
 
-> Learn more about authentication, authorization and security with Restlet Framework [here](http://restlet.com/learn/guide/2.3/core/security/).
-
-> You can try this application easily with a REST client like [POSTMAN](http://www.getpostman.com/).
+You can interact with this application easily using a REST client like [POSTMAN](http://www.getpostman.com/).
 
 ## Database access
 
@@ -54,8 +51,7 @@ To visualize the database, open the H2 console in you browser (`http://localhost
 
 ## Description
 
-This Web API contains 2 main resources :
-
+This Web API contains 2 main resources:
 * Company : identified by an auto-generated id.
 * Contact : identified by its email. A contact can be part of a company and get a reference to it.
 
@@ -63,7 +59,7 @@ This is a diagram of the API :
 
 ![Diagram](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/RFWebAPIReferenceImplementation.png)
 
-> A Web API definition can be generated with [APISpark extension (RF 2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark).
+A Web API definition can be generated with [APISpark extension (V2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark).
 
 ## Implementation choices
 
@@ -76,23 +72,22 @@ This is a diagram of the API :
 ## Next steps
 
 Here are some instructions to go further with this project:
-
  * Persistence layer
  	* For each operation a new connection is created.
- 	It would be useful to use a connection pool like [DBCP](http://commons.apache.org/proper/commons-dbcp/).
+ 	It would be useful to use a connection pool like [DBCP](http://commons.apache.org/proper/commons-dbcp/) or the built-in connection pool of your database's JDBC driver if available.
  	* It is possible to totally dissociate the persistence layer from the Server Resources.
- 	It would allow the use of several persitence layers. It would also be possible to use dependency injection.
+ 	It would allow the use of several persistence layers. It would also be possible to use dependency injection.
  * Authentication/Authorization
- 	* It is strongly recommended to store users/roles in a database instead of in-memory.
+ 	* It is strongly recommended to store users/roles in a database or a user directory instead of in-memory.
  	You can create a custom [SecretVerifier](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/SecretVerifier.html)
- 	 and [Enroler](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/Enroler.html).
+ 	 and [Enroler](http://restlet.com/technical-resources/restlet-framework/javadocs/2.3/jse/api/org/restlet/security/Enroler.html) for this purpose.
  	* It is possible to handle autorizations globally in a filter instead of at the beginning of each class.
  	In fact, in this example, there is a repeating schema: the "user" role is required for GET methods,
  	the "owner" role for to the others.
 
 ## Usage
 
-> These examples are made using the JSON format but you can use XML or YAML if you want.
+These examples are made using the JSON format but you can use XML or YAML if you want.
 
 ### Ping resource
 
@@ -100,9 +95,9 @@ A resource `/ping` has been created which does not need authentication.
 
 ```GET 		http://localhost:9000/v1/ping```
 
-![Ping Example](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/ping.png)
+It should return the ```Version: 1.0.0 running``` text in the HTTP response body.
 
-> For the following examples, Basic Authentication is required
+For the following examples, Basic Authentication is required. Also, you should indicate the media type of the JSON document sent using a ```Content-Type: application/json``` HTTP header.
 
 ### Create a company
 
@@ -110,64 +105,64 @@ A resource `/ping` has been created which does not need authentication.
 
  ```json
 {
-  	"name" : "Restlet",
+  	"name" : "GitHub",
   	"duns" : "123456789",
-  	"address" : "2 API road",
-  	"zipCode" : "44300",
+  	"address" : "88 Colin P Kelly Jr St",
+  	"zipCode" : "94107",
   	"creationDate" : "2014-01-01",
-  	"website" : "http://restlet.com",
-  	"city" : "Nantes",
+  	"website" : "github.com",
+  	"city" : "San Francisco",
   	"phoneNumber" : "+1 555 555 555"
 }
 ```
 
-![POST Companies](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/POSTCompanies.png)
-
-> The returned status is : `201 Created`.
-
-The location of the created company is written is the "location" header.
-
- ![POST Companies headers](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/POSTCompaniesHeaders.png)
+The returned status is : `201 Created`. Note that the location of the created company is written is the ```Location``` HTTP header.
 
 ### Retrieve all created companies
 
  ```GET		http://localhost:9000/v1/companies/```
 
-> The trailing slash is optional : both `http://localhost:9000/v1/companies/` and `http://localhost:9000/v1/companies` will work.
-
- It should retrieve :
+The trailing slash is optional : both `http://localhost:9000/v1/companies/` and `http://localhost:9000/v1/companies` will work. It should retrieve :
 
  ```json
 {
-	"list" :
-		[
-			{
-				"duns":"123456789",
-				"address":"2 API road",
-				"zipCode":"44300",
-				"creationDate":"2014-01-01",
-				"website":"http://restlet.com",
-				"phoneNumber":"+1 555 555 555",
-				"city":"Nantes",
-				"name":"Restlet",
-				"self":"/companies/1"
-			}
-		]
+	"list": [
+		{
+			"duns": "738673861",
+			"website": "restlet.com",
+			"name": "Restlet",
+			"self": "/companies/1"
+		},
+		{
+			"duns": "947394731",
+			"website": "google.com",
+			"name": "Google",
+			"self": "/companies/2"
+		},
+		{
+			"duns": "123456789",
+			"address": "88 Colin P Kelly Jr St",
+			"zipCode": "94107",
+			"creationDate": "2013-12-31",
+			"website": "github.com",
+			"phoneNumber": "+1 555 555 555",
+			"city": "San Francisco",
+			"name": "GitHub",
+			"self": "/companies/3"
+		}
+	]
 }
 ```
 
-![GET Companies](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETCompanies.png)
-
-> The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/1`.
-> Try `GET	http://localhost:9000/v1/companies/1` !
+The `self` element refers to the location of the object : `http://localhost:9000/v1/companies/3`. Try `GET	http://localhost:9000/v1/companies/3`!
 
 ### Create a contact related to the created company
 
  ```PUT	http://localhost:9000/v1/contacts/{email}```
 
-  with `{email}` representing the email of the contact you want to insert.
+with `{email}` representing the email of the contact you want to insert.
 
- For this example, it is:
+For this example, it is:
  ``` PUT	http://localhost:9000/v1/contacts/gblondeau@restlet.com```
 
  ```json
@@ -191,20 +186,15 @@ You should get back:
 }
  ```
 
- ![PUT Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/PUTContacts.png)
+The returned status is : `201 Created`.
 
-> The returned status is : `201 Created`.
-
-> The field company is a reference to the location of the company, with 1 the id of the company.
- 	ie : /companies/1 refers to http://localhost:9000/v1/companies/1
+The property company is a reference to the location of the company, with 1 the id of the company. ie : /companies/1 refers to http://localhost:9000/v1/companies/1
 
 ### Retrieve the list of created contacts
 
 ```GET		http://localhost:9000/v1/contacts```
 
-> The trailing slash is optional : both ```http://localhost:9000/v1/contacts/``` and ```http://localhost:9000/v1/contacts``` will work.
-
-It should retrieve :
+The trailing slash is optional : both ```http://localhost:9000/v1/contacts/``` and ```http://localhost:9000/v1/contacts``` will work. It should retrieve :
 
 ```json
 {
@@ -222,9 +212,7 @@ It should retrieve :
 }
 ```
 
-  ![GET Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETContacts.png)
-
-> The field company is a reference to the location of the company
+The property company is a reference to the location of the company.
 
 To display the company information, add the following query parameter : ```?strategy=load```
 
@@ -258,8 +246,6 @@ It should retrieve :
 }
 ```
 
-  ![GET Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/GETContactsLoad.png)
-
 ### Modify an existing contact
 
 ```PUT		http://localhost:9000/v1/contacts/gblondeau@restlet.com```
@@ -285,7 +271,4 @@ It should retrieve:
 }
 ```
 
-  ![PUT Contacts](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/PUTContacts2.png)
-
-> This time a ```200 OK ``` is returned because it is not a creation but an update.
-
+This time a ```200 OK ``` is returned because it is not a creation but an update.
