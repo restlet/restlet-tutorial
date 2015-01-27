@@ -57,7 +57,7 @@ This Web API contains 2 main resources:
 
 This is a diagram of the API :
 
-![Diagram](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/RFWebAPIReferenceImplementation.png)
+![Diagram](https://github.com/restlet/restlet-tutorial/blob/master/modules/org.restlet.tutorial.webapi/images/RFWebApiTutorialOverview.png)
 
 A Web API definition can be generated with [APISpark extension (V2.3)](http://restlet.com/learn/guide/2.3/extensions/apispark).
 
