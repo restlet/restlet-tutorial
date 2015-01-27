@@ -29,9 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.tutorial.WebApiTutorial;
+import org.restlet.tutorial.core.exception.BadEntityException;
 import org.restlet.tutorial.core.exception.NotFoundException;
 import org.restlet.tutorial.core.util.ResourceUtils;
 import org.restlet.tutorial.persistence.ContactPersistence;
@@ -207,4 +209,49 @@ public class ContactListServerResource extends ServerResource implements
         }
 
     }
+
+	@Override
+	public ContactRepresentation add(ContactRepresentation contactReprIn)
+			throws BadEntityException {
+		
+		getLogger().finer("Add a new contact.");
+
+        // Check authorization
+        ResourceUtils.checkRole(this, WebApiTutorial.ROLE_USER);
+        getLogger().finer("User allowed to add a contact.");
+
+        // Check entity
+        ResourceUtils.notNull(contactReprIn);
+        getLogger().finer("Contact checked");
+
+        try {
+
+            // Convert ContactRepresentation to Contact
+            Contact contactIn = ContactUtils.toContact(contactReprIn);
+
+            // Add new contact in DB and retrieve created contact
+            Contact contactOut = contactPersistence.add(contactIn);
+
+            // Convert company to CompanyRepresentation
+            ContactRepresentation result = ContactUtils
+                    .toContactRepresentation(contactOut);
+
+            // Set location of created resource and status to created (201)
+            getResponse().setLocationRef(
+                    ResourceUtils.getContactUrl(contactOut.getId()));
+            getResponse().setStatus(Status.SUCCESS_CREATED);
+
+            getLogger().finer("Contact successfully added.");
+
+            return result;
+        } catch (SQLException ex) {
+            getLogger().log(Level.WARNING, "Error when adding a contact", ex);
+            if (WebApiTutorial.SQL_STATE_23000_DUPLICATE.equals(ex
+                    .getSQLState())) {
+                throw new BadEntityException(
+                        "Can't add a contact due to integrity constraint violation.");
+            }
+            throw new ResourceException(ex);
+        }
+	}
 }

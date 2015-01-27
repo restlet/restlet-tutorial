@@ -36,6 +36,7 @@ public class ContactUtils {
             contact.setFirstName(cRepr.getFirstName());
             contact.setName(cRepr.getName());
             contact.setAge(cRepr.getAge());
+            contact.setEmail(cRepr.getEmail());
             return contact;
         }
         return null;
