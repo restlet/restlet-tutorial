@@ -36,7 +36,12 @@ import org.restlet.resource.Status;
 @Status(400)
 public class BadParameterException extends BusinessException {
 
-    public BadParameterException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BadParameterException(String message) {
         super(400, message);
     }
 }

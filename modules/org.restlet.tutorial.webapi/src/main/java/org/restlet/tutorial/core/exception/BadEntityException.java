@@ -46,7 +46,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Status(422)
 public class BadEntityException extends BusinessException {
 
-    private List<String> globalMessages;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private List<String> globalMessages;
 
     private List<FieldError> fieldErrors;
 

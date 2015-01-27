@@ -27,7 +27,6 @@ package org.restlet.tutorial.core.util;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-import org.restlet.tutorial.WebApiTutorial;
 import org.restlet.tutorial.core.exception.BadEntityException;
 import org.restlet.tutorial.representation.CompanyRepresentation;
 
@@ -61,7 +60,7 @@ public class ResourceUtils {
      * @return The URL of the resource that represents a company.
      */
     public static String getCompanyUrl(String id) {
-        return WebApiTutorial.ROUTE_COMPANIES + "/" + id;
+        return "/companies/" + id;
     }
 
     /**
@@ -72,7 +71,7 @@ public class ResourceUtils {
      * @return The URL of the resource that represents a contact.
      */
     public static String getContactUrl(String email) {
-        return WebApiTutorial.ROUTE_CONTACTS + "/" + email;
+        return "/contacts/" + email;
     }
 
     /**

@@ -48,157 +48,146 @@ import org.restlet.tutorial.resource.server.PingServerResource;
 
 public class WebApiTutorial extends Application {
 
-    public static Logger logger = Engine.getLogger(WebApiTutorial.class);
+	public static void main(String[] args) throws Exception {
+		LOGGER.info("Contacts application starting...");
 
-    public static final String PING = "Version: 1.0.0 running";
+		PersistenceService.initialize();
 
-    public static void main(String[] args) throws Exception {
-        logger.info("Contacts application starting...");
+		// Attach application to http://localhost:9000/v1
+		Component c = new Component();
+		c.getServers().add(Protocol.HTTP, 9000);
 
-        PersistenceService.initialize();
+		// Declare client connector based on the classloader
+		c.getClients().add(Protocol.CLAP);
 
-        // Attach application to http://localhost:9000/v1
-        Component c = new Component();
-        c.getServers().add(Protocol.HTTP, 9000);
+		// Look for the log configuration file in the current classloader
+		c.getLogService().setLogPropertiesRef("clap:///logging.properties");
 
-        // Declare logger
-        // Declare client connector based on the classloader
-        c.getClients().add(Protocol.CLAP);
-        // Look for the log configuration file in the current classloader
-        c.getLogService().setLogPropertiesRef("clap:///logging.properties");
+		c.getDefaultHost().attach("/v1", new WebApiTutorial());
 
-        c.getDefaultHost().attach("/v1", new WebApiTutorial());
+		c.start();
 
-        c.start();
+		LOGGER.info("Sample Web API started");
+		LOGGER.info("URL: http://localhost:9000/v1");
+	}
 
-        logger.info("Contacts application started on port 9000");
-        logger.info("URL: http://localhost:9000/v1");
-    }
+	public static final Logger LOGGER = Engine.getLogger(WebApiTutorial.class);
+	public static final String PING = "Version: 1.0.0 running";
 
-    /*
-     * Define role names
-     */
-    public static final String ROLE_ADMIN = "admin";
+	/*
+	 * Define role names
+	 */
+	public static final String ROLE_ADMIN = "admin";
+	public static final String ROLE_OWNER = "owner";
+	public static final String ROLE_USER = "user";
 
-    public static final String ROLE_OWNER = "owner";
+	/*
+	 * Define SQL State code constants
+	 */
+	public static final String SQL_STATE_23000_DUPLICATE = "23000";
 
-    public static final String ROLE_USER = "user";
+	public WebApiTutorial() {
+		setName("WebAPITutorial");
+		setDescription("Full Web API tutorial");
 
-    /*
-     * Define route constants
-     */
-    public static final String ROUTE_COMPANIES = "/companies";
+		getRoles().add(new Role(this, ROLE_ADMIN));
+		getRoles().add(new Role(this, ROLE_OWNER));
+		getRoles().add(new Role(this, ROLE_USER));
+	}
 
-    public static final String ROUTE_CONTACTS = "/contacts";
+	private void attachSwaggerSpecification1(Router router) {
+		SwaggerSpecificationRestlet swaggerSpecificationRestlet = new SwaggerSpecificationRestlet(
+				this);
+		swaggerSpecificationRestlet.setBasePath("http://myapp.com/api/");
+		swaggerSpecificationRestlet.attach(router);
+	}
 
-    /*
-     * Define SQL State code constants
-     */
-    public static final String SQL_STATE_23000_DUPLICATE = "23000";
+	private void attachSwaggerSpecification2(Router router) {
+		Swagger2SpecificationRestlet swagger2SpecificationRestlet = new Swagger2SpecificationRestlet(
+				this);
+		swagger2SpecificationRestlet.setBasePath("http://myapp.com/api/");
+		swagger2SpecificationRestlet.attach(router);
+	}
 
-    public WebApiTutorial() {
-        setName("WebAPITutorial");
-        setDescription("Full Web API tutorial");
+	private ChallengeAuthenticator createApiGuard() {
 
-        getRoles().add(new Role(this, ROLE_ADMIN));
-        getRoles().add(new Role(this, ROLE_OWNER));
-        getRoles().add(new Role(this, ROLE_USER));
-    }
+		ChallengeAuthenticator apiGuard = new ChallengeAuthenticator(
+				getContext(), ChallengeScheme.HTTP_BASIC, "realm");
 
-    @Override
-    public Restlet createInboundRoot() {
+		// Create in-memory users and roles.
+		MemoryRealm realm = new MemoryRealm();
+		User owner = new User("owner", "owner");
+		realm.getUsers().add(owner);
+		realm.map(owner, Role.get(this, ROLE_OWNER));
+		realm.map(owner, Role.get(this, ROLE_USER));
+		User admin = new User("admin", "admin");
+		realm.getUsers().add(admin);
+		realm.map(admin, Role.get(this, ROLE_ADMIN));
+		realm.map(admin, Role.get(this, ROLE_OWNER));
+		realm.map(admin, Role.get(this, ROLE_USER));
+		User user = new User("user", "user");
+		realm.getUsers().add(user);
+		realm.map(user, Role.get(this, ROLE_USER));
 
-        Router publicRouter = publicResources();
+		// - Verifier : checks authentication
+		// - Enroler : to check authorization (roles)
+		apiGuard.setVerifier(realm.getVerifier());
+		apiGuard.setEnroler(realm.getEnroler());
 
-        // Create the api router, protected by a guard
-        ChallengeAuthenticator apiGuard = createApiGuard();
-        Router apiRouter = createApiRouter();
-        apiGuard.setNext(apiRouter);
+		// Provide your own authentication checks by extending SecretVerifier or
+		// LocalVerifier classes
+		// Extend the Enroler class in order to assign roles for an
+		// authenticated user
 
-        publicRouter.attachDefault(apiGuard);
+		return apiGuard;
+	}
 
-        return publicRouter;
-    }
+	private Router createApiRouter() {
 
-    public Router publicResources() {
-        Router router = new Router();
+		// Attach server resources to the given URL template.
+		// For instance, CompanyListServerResource is attached
+		// to http://localhost:9000/v1/companies
+		// and to http://localhost:9000/v1/companies/
+		Router router = new Router(getContext());
 
-        router.attach("/ping", PingServerResource.class);
+		router.attach("/companies", CompanyListServerResource.class);
+		router.attach("/companies/", CompanyListServerResource.class);
+		router.attach("/companies/{id}", CompanyServerResource.class);
+		router.attach("/companies/{id}/contacts",
+				ContactListServerResource.class);
+		router.attach("/companies/{id}/contacts/",
+				ContactListServerResource.class);
 
-        // Attach Swagger Specifications
-        attachSwaggerSpecification1(router);
-        attachSwaggerSpecification2(router);
-        return router;
-    }
+		router.attach("/contacts", ContactListServerResource.class);
+		router.attach("/contacts/", ContactListServerResource.class);
+		router.attach("/contacts/{email}", ContactServerResource.class);
+		return router;
+	}
 
-    private ChallengeAuthenticator createApiGuard() {
+	@Override
+	public Restlet createInboundRoot() {
 
-        ChallengeAuthenticator apiGuard = new ChallengeAuthenticator(
-                getContext(), ChallengeScheme.HTTP_BASIC, "realm");
+		Router publicRouter = publicResources();
 
-        // Create in-memory users and roles.
-        MemoryRealm realm = new MemoryRealm();
-        User owner = new User("owner", "owner");
-        realm.getUsers().add(owner);
-        realm.map(owner, Role.get(this, ROLE_OWNER));
-        realm.map(owner, Role.get(this, ROLE_USER));
-        User admin = new User("admin", "admin");
-        realm.getUsers().add(admin);
-        realm.map(admin, Role.get(this, ROLE_ADMIN));
-        realm.map(admin, Role.get(this, ROLE_OWNER));
-        realm.map(admin, Role.get(this, ROLE_USER));
-        User user = new User("user", "user");
-        realm.getUsers().add(user);
-        realm.map(user, Role.get(this, ROLE_USER));
+		// Create the api router, protected by a guard
+		ChallengeAuthenticator apiGuard = createApiGuard();
+		Router apiRouter = createApiRouter();
+		apiGuard.setNext(apiRouter);
 
-        // - Verifier : checks authentication
-        // - Enroler : to check authorization (roles)
-        apiGuard.setVerifier(realm.getVerifier());
-        apiGuard.setEnroler(realm.getEnroler());
+		publicRouter.attachDefault(apiGuard);
 
-        // Provide your own authentication checks by extending SecretVerifier or
-        // LocalVerifier classes
-        // Extend the Enroler class in order to assign roles for an
-        // authenticated user
+		return publicRouter;
+	}
 
-        return apiGuard;
-    }
+	public Router publicResources() {
+		Router router = new Router();
 
-    private Router createApiRouter() {
+		router.attach("/ping", PingServerResource.class);
 
-        // Attach server resources to the given URL template.
-        // For instance, CompanyListServerResource is attached
-        //     to http://localhost:9000/v1/companies
-        // and to http://localhost:9000/v1/companies/
-        Router router = new Router(getContext());
-        router.attach(ROUTE_COMPANIES, CompanyListServerResource.class);
-        router.attach(ROUTE_COMPANIES + "/", CompanyListServerResource.class);
-        router.attach(ROUTE_COMPANIES + "/{id}", CompanyServerResource.class);
-        router.attach(ROUTE_CONTACTS, ContactListServerResource.class);
-        router.attach(ROUTE_CONTACTS + "/", ContactListServerResource.class);
-        router.attach(ROUTE_CONTACTS + "/{email}", ContactServerResource.class);
-
-        // List of contacts for a company
-        router.attach(ROUTE_COMPANIES + "/{id}" + ROUTE_CONTACTS,
-                ContactListServerResource.class);
-        router.attach(ROUTE_COMPANIES + "/{id}" + ROUTE_CONTACTS + "/",
-                ContactListServerResource.class);
-
-        return router;
-    }
-
-    private void attachSwaggerSpecification1(Router router) {
-        SwaggerSpecificationRestlet swaggerSpecificationRestlet = new SwaggerSpecificationRestlet(
-                this);
-        swaggerSpecificationRestlet.setBasePath("http://myapp.com/api/");
-        swaggerSpecificationRestlet.attach(router);
-    }
-
-    private void attachSwaggerSpecification2(Router router) {
-        Swagger2SpecificationRestlet swagger2SpecificationRestlet = new Swagger2SpecificationRestlet(
-                this);
-        swagger2SpecificationRestlet.setBasePath("http://myapp.com/api/");
-        swagger2SpecificationRestlet.attach(router);
-    }
+		// Attach Swagger Specifications
+		attachSwaggerSpecification1(router);
+		attachSwaggerSpecification2(router);
+		return router;
+	}
 
 }

@@ -2,7 +2,7 @@ DROP table IF EXISTS Contact;
 DROP table IF EXISTS Company;
 
 CREATE TABLE Company (
-    id INT NOT NULL,
+    id INT AUTO_INCREMENT,
     duns VARCHAR(9) UNIQUE,
     name VARCHAR(255),
     address VARCHAR(255), 
@@ -25,7 +25,7 @@ CREATE TABLE Contact (
     FOREIGN KEY (company_id) REFERENCES Company(id)
 ); 
 
-INSERT INTO Company (id, duns, name, website) values
-  (1, '7386', 'Restlet', 'restlet.com'),
-  (2, '9473', 'Google', 'google.com')
+INSERT INTO Company (duns, name, website) values
+  ('738673861', 'Rest!let', 'restlet.com'),
+  ('947394731', 'Google', 'google.com')
 ;

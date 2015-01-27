@@ -42,7 +42,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "cause", "localizedMessage", "stackTrace", "suppressed" })
 public abstract class BusinessException extends RuntimeException {
 
-    private int status;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int status;
 
     public BusinessException(int status, String message) {
         super(message);
