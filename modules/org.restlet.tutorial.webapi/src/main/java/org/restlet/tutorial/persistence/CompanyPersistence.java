@@ -56,7 +56,7 @@ public class CompanyPersistence extends PersistenceService<Company> {
     public Company add(Company toAdd) throws SQLException {
 
         Context.getCurrentLogger().finer(
-                "Method delete() of CompanyPersistence called.");
+                "Method add() of CompanyPersistence called.");
 
         Connection connection = null;
         try {
@@ -91,7 +91,7 @@ public class CompanyPersistence extends PersistenceService<Company> {
         } finally {
             releaseConnection(connection);
             Context.getCurrentLogger().finer(
-                    "Method delete() of CompanyPersistence finished.");
+                    "Method add() of CompanyPersistence finished.");
         }
     }
 
