@@ -116,7 +116,7 @@ For the following examples, Basic Authentication is required. Also, you should i
 }
 ```
 
-The returned status is : `201 Created`. Note that the location of the created company is written is the ```Location``` HTTP header.
+The returned status is : `201 Created`. Note that the location of the created company is written in the ```Location``` HTTP header.
 
 ### Retrieve all created companies
 
