@@ -149,7 +149,7 @@ the CLAP protocol:
 ```
 
 You must be sure here to have registered the CLAP protocol. See the deployment sections to see how
-to register client protocols azccording to your target environment. You can also see the troubleshooting
+to register client protocols according to your target environment. You can also see the troubleshooting
 section if you have problems when using a client protocol.
 
 You can notice that you can also reference static folder with an absolute path using the file protocol
